@@ -1,0 +1,112 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ path('home') }}" class="brand-link">
+        <img src="{{ absolute_url( asset('dist/img/AdminLTELogo.png')) }}" alt="DCGDR PAR"
+             class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">PARTENAIRE</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <div class="image">
+                    <img src="{{ app.user.avatar.image }}" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="{{ path('profil_home') }}" class="d-block">{{ app.user.name }}</a>
+                </div>
+            {% else %}
+                <div class="image">
+                    <img src="{{ absolute_url( asset('dist/img/avatar5.png')) }}" class="img-circle elevation-2"
+                         alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="{{ path('user_login') }}" class="d-block">Non connecté</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                {% if is_granted('ROLE_USER') %}
+
+                        <li class="nav-item ">
+                            <a href="{{path('dashboard')}}" class="nav-link {{  '/dashboard' in app.request.uri ? 'active' :'' }}">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Tableau de bord
+                                </p>
+                            </a>
+
+                        </li>
+                        {% if is_granted('ROLE_GESTIONNAIRE') %}
+                        <li class="nav-item has-treeview ">
+                            <a href="#" class="nav-link {{ '/action/' in app.request.uri ? 'active' :'' }}">
+                                <i class="nav-icon fas fa-bolt"></i>
+                                <p>
+                                    Actions
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item {{ '/action/new' in app.request.uri ? 'active' :'' }}">
+                                    <a href="{{ path('action_new') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Ajouter une action</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                            {% endif %}
+
+
+                        <li class="nav-item">
+                            <a href="{{ path('admin_home') }}" class="nav-link
+                                {% if '/admin/' in app.request.uri %} active {% endif %}
+                            ">
+                                <i class="nav-icon fa fa-cog"></i>
+                                <p>
+                                    Administration
+                                </p>
+                            </a>
+                        </li>
+
+                    <li class="nav-item">
+                        <a href="{{ path('profil_home') }}" class="nav-link
+                            {{ '/profil/' in app.request.uri ? 'active' :'' }}
+                        ">
+                            <i class="nav-icon far fa-user"></i>
+                            <p>
+                                Votre compte
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a href="{{ path('documentation') }}" class="nav-link">
+                        <i class="nav-icon fas fa-file"></i>
+                        <p>Documentation</p>
+                    </a>
+                </li>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+
+                        <a class="nav-link" href="{{ path('user_logout') }}">
+                            <i class="nav-icon fa fa-sign-out-alt"></i>
+                            <p>Déconnexion</p>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
