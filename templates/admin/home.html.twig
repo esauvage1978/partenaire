@@ -32,7 +32,8 @@
                         <tbody>
                         {% if is_granted('ROLE_USER') %}
                             {{ include('admin/_entree_unitaire.html.twig',{'title':'Utilisateur', 'domaine':'user'} ) }}
-                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Civilité', 'domaine':'civilite'} ) }}
+                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Civilité des contacts', 'domaine':'civilite'} ) }}
+                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Fonction des contacts', 'domaine':'fonction'} ) }}
                         {% endif %}
                         </tbody>
                     </table>
