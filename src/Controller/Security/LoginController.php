@@ -12,11 +12,15 @@ class LoginController extends AbstractController
 {
     /**
      * @Route("/login", name="user_login")
+     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      */
-    public function loginAction(): Response
+    public function loginAction(AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->redirectToRoute('home');
+        $error = $authenticationUtils->getLastAuthenticationError();
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     /**
