@@ -32,6 +32,7 @@
                         <tbody>
                         {% if is_granted('ROLE_USER') %}
                             {{ include('admin/_entree_unitaire.html.twig',{'title':'Utilisateur', 'domaine':'user'} ) }}
+                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Civilité', 'domaine':'civilite'} ) }}
                         {% endif %}
                         </tbody>
                     </table>
