@@ -41,7 +41,11 @@
 
                                         </td>
                                         <td class="text-center">
-
+                                            {% if   fonction.contacts.count==0 %}
+                                                <span class="text-light" ><i class="fas fa-circle"></i></span>
+                                            {% else %}
+                                                <small class="badge bg-info">{{ fonction.contacts.count}}</small>
+                                            {% endif %}
                                         </td>
 
 

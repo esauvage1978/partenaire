@@ -1,0 +1,55 @@
+{% if paginator.nbrPages > 1 %}
+
+    {# Number of page around current page+1 #}
+    {% set nearbyPagesLimit = 5 %}
+
+    <div class="container">
+        <nav aria-label="">
+            <ul class="pagination justify-content-center">
+                {% if paginator.currentPage != 1 %}
+                    <li class="page-item">
+                        <a class="page-link"
+                                {% if id is defined %}
+                                    href="{{ path(route, {id:id, page: 1 }) }}"
+                                {% else %}
+                                    href="{{ path(route, {page: 1 }) }}"
+                                {% endif %}
+                        >Début</a>
+                    </li>
+                {% endif %}
+                {% for i in 1..paginator.nbrPages %}
+                    {% if 1 == (paginator.currentPage - nearbyPagesLimit) - loop.index %} {# dot before #}
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a>
+                        </li>
+                    {% elseif 1 == (paginator.currentPage + nearbyPagesLimit) - loop.index %} {# dot after #}
+                        <li class="page-item disabled"><a class="page-link" href="#">...</a>
+                        </li>
+                    {% elseif 1 < (paginator.currentPage - nearbyPagesLimit) - loop.index %} {# hide all before #}
+                    {% elseif 1 > (paginator.currentPage + nearbyPagesLimit) - loop.index %} {# hide all after #}
+                    {% else %}
+                        <li class="page-item {% if paginator.currentPage == loop.index %}active {% endif %}">
+                            <a class="page-link"
+                                    {% if id is defined %}
+                                        href="{{ path(route, {id:id, page: loop.index }) }}"
+                                    {% else %}
+                                        href="{{ path(route, {page: loop.index }) }}"
+                                    {% endif %}
+                            >{{ loop.index }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                {% if paginator.currentPage != paginator.nbrPages %}
+                    <li class="page-item">
+                        <a class="page-link"
+                                {% if id is defined %}
+                                    href="{{ path(route, {id:id, page: paginator.nbrPages }) }}"
+                                {% else %}
+                                    href="{{ path(route, {page: paginator.nbrPages }) }}"
+                                {% endif %}
+                           >Fin</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}

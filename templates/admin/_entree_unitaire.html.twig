@@ -9,8 +9,9 @@
         {% if is_granted('ROLE_GESTIONNAIRE') or ( is_granted('ROLE_GESTIONNAIRE_LOCAL') and domaine== 'corbeille' ) %}
             {{ include('share/__btn_new.html.twig',
                 {
-                    'url':domaine ~ '_new',
-                    'sm':true
+                    url:domaine ~ '_new',
+                    sm:true,
+                    title:'ajouter un élément'
                 }) }}
         {% endif %}
     </td>

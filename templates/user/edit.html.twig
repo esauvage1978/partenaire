@@ -1,71 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} Utilisateur{% endblock %}
+{% set title='Utilisateurs' %}
+{% set route_index='user_index' %}
+{% set entityName='user' %}
+{% set entity=user %}
+
+{% block title %}{{ parent() }} {{ title }}{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ absolute_url( asset('plugins/select2/css/select2.min.css')) }}">
-    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')) }}">
+    <link rel="stylesheet"
+          href="{{ absolute_url( asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')) }}">
+    <!-- iCheck for checkboxes and radio inputs -->
     <link rel="stylesheet" href="{{ absolute_url( asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')) }}">
 {% endblock %}
 
 {% block body_header %}
-    {{ include('admin/_body_header.html.twig', {'domaine': 'Utilisateur' , 'id' : user.id, 'index' : 'user_index'}) }}
+    {{ include('admin/_body_header.html.twig', {domaine: title , id : entity.id, index : route_index}) }}
+{% endblock %}
+
+{% block sidebar_sommaire %}
+
+{% endblock %}
+
+{% block sidebar_button %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        {{ include('share/__btn_save_onclick.html.twig') }}
+
+        <span class="mb-3"></span>
+
+        <span class="btn btn-danger " onclick="$('#delete').click();">
+            <i class="fas fa-trash"></i> Supprimer
+        </span>
+
+    {% endif %}
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_return_show.html.twig',
+        {   url:entityName~ '_show',
+            id:entity.id
+        }) }}
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_return_list.html.twig',
+        {   url:route_index
+        }) }}
+
 {% endblock %}
 
 {% block body %}
+
+
+
+
 
     {{ form_start(form) }}
     <div class="row justify-content-center">
         <div class="{{ col_primary }}">
             <div class="card ">
-                <div class="card-footer">
-                    Les informations de l'utilisateur
-                </div>
-                {{  include('user/_form.html.twig') }}
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col  d-flex justify-content-between align-items-center">
 
-                            {{ include('share/__btn_return_list.html.twig',
-                                {   'url':'user_index'
-                                }) }}
+                {{ include(entityName~ '/_form.html.twig') }}
 
-                            {{ include('share/__btn_show.html.twig',
-                                {   'url':'user_show',
-                                    'id':user.id
-                                }) }}
-
-                            {{ include('share/__btn_save.html.twig') }}
-
-
-                            <span class="btn btn-danger " onclick="$('#delete').click();">
-                                 <i class="fas fa-trash"></i> Supprimer
-                            </span>
-
-
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        {{  include('user/_form_secondary.html.twig') }}
 
-    </div>
-    <div class="d-none">
-        {{ form_rest(form)  }}
+        </div>
+        {{ include(entityName~ '/_form_secondary.html.twig') }}
+        <div class="d-none">
+            {{ include('share/__btn_save.html.twig') }}
+            {{ form_rest(form) }}
+        </div>
     </div>
     {{ form_end(form) }}
 
 
     <div class="d-none">
-        {{ include('share/_delete_form.html.twig',{'domaine':'user','id':user.id}) }}
+        {{ include('share/_delete_form.html.twig',{domaine: entityName,id:entity.id}) }}
     </div>
+
+
 {% endblock %}
-
-
 
 {% block javascripts %}
     <!-- Select2 -->
     <script src="{{ absolute_url( asset('plugins/select2/js/select2.full.min.js')) }}"></script>
-
+    <script src="{{ absolute_url( asset('js/add_sidebar.js')) }}"></script>
 {% endblock %}
+
