@@ -1,0 +1,80 @@
+<table id="tableAdministration" class="table table-striped projects  bg-white"
+       style="width:100%">
+    <thead>
+    <tr>
+        <th class="align-middle">Civilité</th>
+        <th class="align-middle">Nom</th>
+        <th class="align-middle">Fonction</th>
+        <th class="align-middle">téléphone</th>
+        <th class="align-middle">Mail</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for contact in contacts %}
+        <tr>
+            <td class="align-middle">
+                {% if contact.civilite %}
+                    {{ contact.civilite.name }}
+                {% endif %}
+            </td>
+            <td class="align-middle">
+                <a href="{{ path('contact_show',{id:contact.id}) }}">
+                    {% if contact.enable %}
+                        {{ contact.name }}
+                    {% else %}
+                        <span class="text-danger text-bold">
+                           {{ contact.name }}
+                           </span>
+                    {% endif %}
+                </a>
+            </td>
+            <td class="align-middle">
+                {% if contact.fonction %}
+                    {{ contact.fonction.name }}
+                {% endif %}
+            </td>
+            <td class="text-center  align-middle">
+                {{ contact.phone1 }}
+                {% if contact.phone1 and contact.phone2 %}
+                    <br>
+                {% endif %}
+                {{ contact.phone2 }}
+            </td>
+            <td class="talign-middle">
+                {% if contact.mail1 %}
+                    <a href="mailto:// {{ contact.mail1 }}">
+                        {{ contact.mail1 }}
+                    </a>
+                {% endif %}
+                {% if contact.mail1 and contact.mail2 %}
+                    <br>
+                {% endif %}
+                {% if contact.mail2 %}
+                    <a href="mailto:// {{ contact.mail2 }}">
+                        {{ contact.mail2 }}
+                    </a>
+                {% endif %}
+            </td>
+            <td class="project-actions text-right">
+                {{ include('share/__btn_show.html.twig',
+                    {   'url':'contact_show',
+                        'id':contact.id,
+                        'sm':true
+                    }) }}
+
+                <span class="mb-2"></span>
+                {{ include('share/__btn_edit.html.twig',
+                    {   'url':'contact_edit',
+                        'id':contact.id,
+                        'sm':true
+                    }) }}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">Aucun d'enregistrement</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

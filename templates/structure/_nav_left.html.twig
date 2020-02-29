@@ -46,6 +46,31 @@
                             </a>
 
                         </li>
+                    <li class="nav-item has-treeview ">
+                        <a href="#" class="nav-link {{ '/contact' in app.request.uri ? 'active' :'' }}">
+                            <i class="nav-icon fas fa-bolt"></i>
+                            <p>
+                                Contacts
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item {{ '/contacts' in app.request.uri ? 'active' :'' }}">
+                                <a href="{{ path('contact_index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Recherche</p>
+                                </a>
+                            </li>
+                            {% if is_granted('ROLE_EDITEUR') %}
+                            <li class="nav-item {{ '/contact/new' in app.request.uri ? 'active' :'' }}">
+                                <a href="{{ path('contact_new') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Ajout</p>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
 
                         <li class="nav-item">
                             <a href="{{ path('admin_home') }}" class="nav-link

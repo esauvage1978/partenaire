@@ -82,7 +82,9 @@ class Step1000_UserFixtures extends Fixture implements FixtureGroupInterface
         if ($data['droit1']) {
             array_push($roles, 'ROLE_GESTIONNAIRE');
         }
-
+        if ($data['droit2']) {
+            array_push($roles, 'ROLE_EDITEUR');
+        }
 
         $instance
             ->setId($data['n0_num'])

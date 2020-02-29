@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\EntityInterface;
 use App\Manager\ManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,6 +25,12 @@ abstract class AppControllerAbstract extends AbstractController
 
     const FORM = 'form';
 
+    public $bag;
+
+    public function __construct(ParameterBagInterface $parameterBag)
+    {
+        $this->bag=$parameterBag;
+    }
     /**
      * @return Response
      */
@@ -43,7 +50,11 @@ abstract class AppControllerAbstract extends AbstractController
             if ($manager->save($entity)) {
                 $this->addFlash(self::SUCCESS, $message);
 
-                return $this->redirectToRoute($domaine . '_index');
+                if(empty($entity->getId())) {
+                    return $this->redirectToRoute($domaine . '_edit', ['id' => $entity->getId()]);
+                } else {
+                    return $this->redirectToRoute($domaine . '_index' );
+                }
             }
             $this->addFlash(self::DANGER, self::MSG_ERROR . $manager->getErrors($entity));
         }

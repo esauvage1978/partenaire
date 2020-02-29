@@ -1,0 +1,72 @@
+<div class="card bg-light col-12">
+    <div class="card-header text-center text-primary">
+        <i class="fas fa-3x fa-users"></i>
+    </div>
+    <div class="card-body ">
+
+        <h2 class="lead mb-5"><b>
+                <a href="{{ path('contact_show',{id:contact.id}) }}" title="Affiche le détail de ce contact">
+                    {% if contact.civilite %}
+                        {{ contact.civilite.name }}
+                    {% endif %} {{ contact.name }}
+                </a>
+            </b>
+            {% if contact.fonction %}
+                <span class="text-muted float-right">
+                    <a href="{{ path('fonction_show',{id:contact.fonction.id}) }}">
+                        {{ contact.fonction.name }}
+                    </a>
+                </span>
+            {% endif %}
+        </h2>
+
+        <ul class="ml-4  fa-ul">
+
+            {% if contact.phone1 %}
+                <li class="mt-2">
+                    <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                    {% if contact.phone1 %}
+                        {{ contact.phone1 }}
+                    {% endif %}
+                </li>
+            {% endif %}
+            {% if contact.phone2 %}
+                <li class="mt-2">
+                    <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                    {% if contact.phone2 %}
+                        {{ contact.phone2 }}
+                    {% endif %}
+                </li>
+            {% endif %}
+            {% if contact.mail1 %}
+                <li class="mt-2">
+                    <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+                    {% if contact.mail1 %}
+                        <a href="mailto:// {{ contact.mail1 }}">
+                            {{ contact.mail1 }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endif %}
+            {% if contact.mail2 %}
+                <li class="mt-2">
+                    <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+                    {% if contact.mail2 %}
+                        <a href="mailto:// {{ contact.mail2 }}">
+                            {{ contact.mail2 }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        </ul>
+
+    </div>
+
+    {% if contact.content %}
+        <div class="card-info">
+            <p class="text-muted text-sm">{{ contact.content |raw }} </p>
+        </div>
+    {% endif %}
+
+</div>
+

@@ -21,6 +21,7 @@ class UserTypeNew extends AppTypeAbstract
 
         $roles = [
             'Utilisateur' => 'ROLE_USER',
+            'Editeur' => 'ROLE_EDITEUR',
             'Gestionnaire' => 'ROLE_GESTIONNAIRE',
             'Administrateur' => 'ROLE_ADMIN',
         ];

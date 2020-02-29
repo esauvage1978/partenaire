@@ -128,6 +128,13 @@
                         {% endif %}
                     </div>
                     <div class="list-group-item list-group-item-action">
+                        {% if 'ROLE_EDITEUR' in user.roles %}
+                            <span class="text-success"><i class="fas fa-check"></i> Editeur</span>
+                        {% else %}
+                            <span class="text-danger"><i class="fas fa-times"></i> Editeur</span>
+                        {% endif %}
+                    </div>
+                    <div class="list-group-item list-group-item-action">
                         {% if 'ROLE_USER' in user.roles %}
                             <span class="text-success"><i class="fas fa-check"></i> Utilisateur</span>
                         {% else %}

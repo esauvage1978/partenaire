@@ -1,0 +1,10 @@
+<a class="btn bg-info  {{  sm | default('') ?  'btn-sm' : ''  }}"
+   {% if id is defined %}
+    href="{{ path(url, {'id': id}) }}"
+   {% else %}
+       href="{{ path(url) }}"
+    {% endif %}
+   data-html="true"
+   data-toggle="tooltip" data-placement="top" title="Permet d'exporter les données">
+    <i class="fas fa-file-export"></i>  {{ titre | default('Exporter') }}
+</a>

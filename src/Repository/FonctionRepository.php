@@ -24,7 +24,11 @@ class FonctionRepository extends ServiceEntityRepository
     public function findAllForAdmin()
     {
         return $this->createQueryBuilder(self::ALIAS)
-            ->select(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                ContactRepository::ALIAS
+                )
+            ->leftJoin(self::ALIAS.'.contacts',ContactRepository::ALIAS)
             ->orderBy(self::ALIAS.'.name', 'ASC')
             ->getQuery()
             ->getResult();

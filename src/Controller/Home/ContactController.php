@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/contact", name="contact", methods={"GET"})
+     * @Route("/user/contact", name="contact", methods={"GET"})
      * @return Response
      * @IsGranted("ROLE_USER")
      */
