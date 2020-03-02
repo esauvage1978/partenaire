@@ -1,0 +1,17 @@
+{% if partenaire.mail1 or partenaire.mail2 %}
+    <section>
+        <strong><i class="far fa-envelope mr-1"></i> Mail</strong>
+        <p class="text-muted">
+            {% if partenaire.mail1 %}
+                <a href="mailto:// {{ partenaire.mail1 }}">
+                    {{ partenaire.mail1 }}<br/>
+                </a>
+            {% endif %}
+            {% if partenaire.mail2 %}
+                <a href="mailto:// {{ partenaire.mail2 }}">
+                    {{ partenaire.mail2 }}
+                </a>
+            {% endif %}
+        </p>
+    </section>
+{% endif %}

@@ -22,24 +22,41 @@
 {% block body %}
     <div class="row">
         <div class="col-12">
-            <div class="card card-primary">
+            <div class="card card-dark">
                 <div class="card-header p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab"
-                               aria-controls="custom-tabs-one-home" aria-selected="true">
+                            <a class="nav-link active" id="custom-tabs-one-partenaire-tab" data-toggle="pill" href="#custom-tabs-one-partenaire" role="tab"
+                               aria-controls="custom-tabs-one-partenaire" aria-selected="true">
+                                Partenaires
+                                <span class="badge badge-info">{{ partenaires | length }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-contact-tab" data-toggle="pill" href="#custom-tabs-one-contact" role="tab"
+                               aria-controls="custom-tabs-one-contact" aria-selected="false">
                                 Contacts
                                 <span class="badge badge-info">{{ contacts | length }}</span>
                             </a>
                         </li>
+
                     </ul>
                 </div>
                 <div class="card-body">
                     <div class="tab-content" id="custom-tabs-one-tabContent">
-                        <div class="tab-pane fade active show" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
-                            <div class="row col-12 d-flex align-items-stretch justify-content-center" id="anchor_contact" >
+                        <div class="tab-pane fade active show" id="custom-tabs-one-partenaire" role="tabpanel" aria-labelledby="custom-tabs-one-partenaire-tab">
+                            <div class="row col-12 d-flex align-items-stretch justify-content-center"  >
+                                {% for partenaire in partenaires %}
+                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3  d-flex align-items-stretch" >
+                                        {{ include('partenaire/_view/_vignette.html.twig') }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-contact" role="tabpanel" aria-labelledby="custom-tabs-one-contact-tab">
+                            <div class="row col-12 d-flex align-items-stretch justify-content-center"  >
                                 {% for contact in contacts %}
-                                    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3  d-flex align-items-stretch" >
+                                    <div class="col-sm-12 col-md-6 col-lg-3 col-xl-3  d-flex align-items-stretch" >
                                         {{ include('contact/_view/_vignette.html.twig') }}
                                     </div>
                                 {% endfor %}

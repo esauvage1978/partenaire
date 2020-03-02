@@ -53,8 +53,27 @@
 {% block body %}
 
     <div class="row justify-content-center">
-        <div class="col-sm-6 col-md-6 col-lg-6" >
-            {{ include('partenaire/_view/_vignette.html.twig') }}
+        <div class="col-sm-6 col-md-6 col-lg-6">
+            <div class="card">
+                {{ include('partenaire/_show/_name.html.twig') }}
+                <div class="card-body row">
+                    <div class="d-flex justify-content-around col-12">
+                        {{ include('partenaire/_show/_circonscription.html.twig') }}
+                        {{ include('partenaire/_show/_adresse.html.twig') }}
+                        {{ include('partenaire/_show/_mail.html.twig') }}
+                        {{ include('partenaire/_show/_phone.html.twig') }}
+                    </div>
+                    <div class="col-12">
+                        {{ include('partenaire/_show/_content.html.twig') }}
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    {{ include('partenaire/_show/_referent.html.twig') }}
+                </div>
+            </div>
         </div>
         <div class="d-none">
             {{ include('share/_delete_form.html.twig',{'domaine': 'partenaire','id':partenaire.id}) }}

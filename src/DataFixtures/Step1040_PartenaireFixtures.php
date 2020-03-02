@@ -2,8 +2,11 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Civilite;
+use App\Entity\Contact;
 use App\Entity\Partenaire;
 use App\Helper\FixturesImportData;
+use App\Repository\ContactRepository;
 use App\Validator\PartenaireValidator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
@@ -23,6 +26,10 @@ class Step1040_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
      */
     private $validator;
 
+    /**
+     * @var \App\Entity\Contact[]
+     */
+    private $contacts;
 
     /**
      * @var EntityManagerInterface
@@ -32,16 +39,21 @@ class Step1040_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
     public function __construct(
         FixturesImportData $fixturesImportData,
         PartenaireValidator $validator,
-        EntityManagerInterface $entityManagerI
-    )
-    {
+        EntityManagerInterface $entityManagerI,
+        ContactRepository $contactRepository
+    ) {
         $this->fixturesImportData = $fixturesImportData;
         $this->validator = $validator;
         $this->entityManagerInterface = $entityManagerI;
+        $this->contacts = $contactRepository->findAll();
     }
+
+
 
     public function load(ObjectManager $manager)
     {
+
+
         $data = $this->fixturesImportData->importToArray(self::FILENAME . '.json');
 
         for ($i = 0; $i < count($data); ++$i) {
@@ -65,14 +77,15 @@ class Step1040_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
         }
     }
 
-    public function getInstanceByName(?string $name, $entitys)
+
+    public function getInstance(string $id, $entitys)
     {
-        if (empty($name)) {
+        if($id==='0') {
             return null;
         }
 
         foreach ($entitys as $entity) {
-            if ($entity->getName() === $name) {
+            if ($entity->getId() == $id) {
                 return $entity;
             }
         }
@@ -80,6 +93,8 @@ class Step1040_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
 
     private function initialise(Partenaire $instance, $data): Partenaire
     {
+        /** @var Contact $contact */
+        $contact = $this->getInstance($data['id_contact'], $this->contacts);
 
         $instance
             ->setId($data['n0_num'])
@@ -94,6 +109,10 @@ class Step1040_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
             ->setAddComp1($data['adresse_ad1'])
             ->setAddComp2($data['adresse_ad2'])
             ->setAddCp($this->check_adr_cp( $data['adresse_cp']));
+
+        if (!empty($contact)) {
+            $instance->setReferent($contact);
+        }
 
         return $instance;
     }

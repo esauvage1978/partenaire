@@ -2,6 +2,7 @@
 
 namespace App\Form\Partenaire;
 
+use App\Entity\Contact;
 use App\Entity\Partenaire;
 use App\Form\AppTypeAbstract;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -18,6 +19,14 @@ class PartenaireType extends AppTypeAbstract
     {
         $builder = $this->buildFormNameEnableContent($builder);
         $builder
+            ->add('referent', EntityType::class, [
+                self::CSS_CLASS => Contact::class,
+                self::LABEL=>'Référent',
+                self::CHOICE_LABEL => 'fullname',
+                self::MULTIPLE => false,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                self::REQUIRED => false,
+            ])
             ->add('circonscription', CheckboxType::class,
                 [
                     self::LABEL => ' ',

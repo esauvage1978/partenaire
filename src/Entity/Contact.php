@@ -29,7 +29,7 @@ class Contact implements EntityInterface
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Fonction", inversedBy="contacts")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Fonction", inversedBy="contacts",fetch="EAGER")
      */
     private $fonction;
 
@@ -73,10 +73,22 @@ class Contact implements EntityInterface
      */
     private $histories;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Partenaire", mappedBy="referent")
+     */
+    private $referentPartenaires;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Partenaire", mappedBy="contacts")
+     */
+    private $partenaires;
+
     public function __construct()
     {
         $this->roles = new ArrayCollection();
         $this->histories = new ArrayCollection();
+        $this->referentPartenaires = new ArrayCollection();
+        $this->partenaires = new ArrayCollection();
     }
 
 
@@ -96,6 +108,20 @@ class Contact implements EntityInterface
     {
         return $this->name;
     }
+
+    public function getFullname(): ?string
+    {
+        $name='';
+        if(!empty($this->getCivilite())) {
+            $name=$this->getCivilite()->getName().' ';
+        }
+        $name=$name.$this->name;
+        if(!empty($this->getFonction())) {
+            $name=$name. ' ['.$this->getFonction()->getName().']';
+        }
+        return  $name;
+    }
+
 
     public function setName(string $name): self
     {
@@ -252,6 +278,65 @@ class Contact implements EntityInterface
             if ($history->getContact() === $this) {
                 $history->setContact(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Partenaire[]
+     */
+    public function getReferentPartenaires(): Collection
+    {
+        return $this->referentPartenaires;
+    }
+
+    public function addReferentPartenaire(Partenaire $referentPartenaire): self
+    {
+        if (!$this->referentPartenaires->contains($referentPartenaire)) {
+            $this->referentPartenaires[] = $referentPartenaire;
+            $referentPartenaire->setReferent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReferentPartenaire(Partenaire $referentPartenaire): self
+    {
+        if ($this->referentPartenaires->contains($referentPartenaire)) {
+            $this->referentPartenaires->removeElement($referentPartenaire);
+            // set the owning side to null (unless already changed)
+            if ($referentPartenaire->getReferent() === $this) {
+                $referentPartenaire->setReferent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Partenaire[]
+     */
+    public function getPartenaires(): Collection
+    {
+        return $this->partenaires;
+    }
+
+    public function addPartenaire(Partenaire $partenaire): self
+    {
+        if (!$this->partenaires->contains($partenaire)) {
+            $this->partenaires[] = $partenaire;
+            $partenaire->addContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removePartenaire(Partenaire $partenaire): self
+    {
+        if ($this->partenaires->contains($partenaire)) {
+            $this->partenaires->removeElement($partenaire);
+            $partenaire->removeContact($this);
         }
 
         return $this;
