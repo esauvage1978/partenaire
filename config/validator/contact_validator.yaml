@@ -1,0 +1,36 @@
+App\Entity\Contact:
+  properties:
+    name:
+      - Length:
+          min: 2
+          max: 255
+          minMessage: 'Le nom "{{ value }}" doit avoir plus de 2 caractères'
+          maxMessage: 'Le nom "{{ value }}" ne peut avoir plus de 255 caractères'
+    mail1:
+      - Email:
+          message: 'The email "{{ value }}" is not a valid email.'
+      - Length:
+          min: 6
+          max: 255
+          minMessage: 'Le mail principal "{{ value }}" doit avoir plus de 6 caractères'
+          maxMessage: 'Le mail principal "{{ value }}" ne peut avoir plus de 255 caractères'
+    mail2:
+      - Email:
+          message: 'The email "{{ value }}" is not a valid email.'
+      - Length:
+          min: 6
+          max: 255
+          minMessage: 'Le mail secondaire "{{ value }}" doit avoir plus de 6 caractères'
+          maxMessage: 'Le mail secondaire "{{ value }}" ne peut avoir plus de 255 caractères'
+    phone1:
+      - Length:
+          min: 4
+          max: 20
+          minMessage: 'Le téléphone principal "{{ value }}" doit avoir plus de 4 caractères'
+          maxMessage: 'Le téléphone principal "{{ value }}" ne peut avoir plus de 20 caractères'
+    phone2:
+      - Length:
+          min: 4
+          max: 20
+          minMessage: 'Le téléphone secondaire "{{ value }}" doit avoir plus de 4 caractères'
+          maxMessage: 'Le téléphone secondaire "{{ value }}" ne peut avoir plus de 20 caractères'

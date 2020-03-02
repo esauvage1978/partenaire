@@ -1,0 +1,66 @@
+<div class="col">
+    <div class="card ">
+        <div class=" card-header bg-primary ">
+            <span class="card-title d-flex align-items-center {{ partenaire.enable?'':'text-danger' }}">
+                <i class="fas fa-database mr-2 fa-2x"></i>
+                <a class="text-white pl-2" href="{{ path('partenaire_show',{id:partenaire.id}) }}" title="Affiche le détail de ce partenaire">
+                    {{ partenaire.name }}
+                </a>
+            </span>
+        </div>
+        <div class="card-body ">
+            <h2 class="lead">
+
+            </h2>
+            <hr/>
+
+            <ul class="ml-4  fa-ul">
+
+                {% if partenaire.phone1 %}
+                    <li class="mt-2">
+                        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                        {% if partenaire.phone1 %}
+                            {{ partenaire.phone1 }}
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% if partenaire.phone2 %}
+                    <li class="mt-2">
+                        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+                        {% if partenaire.phone2 %}
+                            {{ partenaire.phone2 }}
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% if partenaire.mail1 %}
+                    <li class="mt-2">
+                        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+                        {% if partenaire.mail1 %}
+                            <a href="mailto:// {{ partenaire.mail1 }}">
+                                {{ partenaire.mail1 }}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+                {% if partenaire.mail2 %}
+                    <li class="mt-2">
+                        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+                        {% if partenaire.mail2 %}
+                            <a href="mailto:// {{ partenaire.mail2 }}">
+                                {{ partenaire.mail2 }}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endif %}
+            </ul>
+
+        </div>
+
+        {% if partenaire.content %}
+            <div class="card-footer">
+                <p class="text-muted text-sm">{{ partenaire.content |raw }} </p>
+            </div>
+        {% endif %}
+
+    </div>
+</div>

@@ -7,8 +7,10 @@ parameters:
     directory_import : '%kernel.project_dir%/data/importFixtures/'
     mailer.mail: 'emmanuel.sauvage@live.fr'
     mailer.name: '[ PARTENAIRE ] Emmanuel SAUVAGE '
-    contact.grid.limitShow : 10
+    contact.grid.limitShow : 30
     contact.vignette.limitShow : 12
+    partenaire.grid.limitShow : 30
+    partenaire.vignette.limitShow : 12
 
 services:
     # default configuration for services in *this* file

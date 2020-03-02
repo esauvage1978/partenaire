@@ -26,6 +26,7 @@ abstract class AppTypeAbstract extends AbstractType
     const QUERY_BUILDER = 'query_builder';
     const DISABLED = 'disabled';
     const MAXLENGTH = 'maxlength';
+    const PLACEHOLDER = 'placeholder';
 
     public function buildFormNameEnableContent(FormBuilderInterface $builder): FormBuilderInterface
     {

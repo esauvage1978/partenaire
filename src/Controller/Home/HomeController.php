@@ -17,7 +17,7 @@ class HomeController extends AbstractController
      */
     public function index()
     {
-        return $this->render('home/index.html.twig', [
+        return $this->render('home/home.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }
@@ -33,7 +33,7 @@ class HomeController extends AbstractController
         Request $request
     ): Response
     {
-        $contactDto->setWord($request->request->get('search'));
+        $contactDto->setWordSearch($request->request->get('search'));
 
         return $this->render(
             'home/search.html.twig',

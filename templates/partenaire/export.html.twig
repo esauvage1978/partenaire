@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} Partenaires{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css')) }}">
+    <link rel="stylesheet"
+          href="{{ absolute_url( asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css')) }}">
+
+    <link rel="stylesheet" type="text/css" href="{{ absolute_url( asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')) }}">
+
+    <style class="init">
+
+        a.buttons-collection {
+            margin-left: 1em;
+        }
+
+    </style>
+{% endblock %}
+
+{% block body_header %}
+    <div class="col">
+        <h1 class="m-0 text-dark">Partenaires {{ exportator.complement }} </h1>
+    </div>
+    <div class="col">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Accueil</a></li>
+            {%  if exportator.route is defined %}
+                <li class="breadcrumb-item">
+                    <a href="{{ exportator.route }}">
+                        {{ exportator.title }}
+                    </a>
+                </li>
+            {% endif %}
+        </ol>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12 p-4 ">
+            {{ include('partenaire/_view/_export.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ absolute_url( asset('plugins/datatables/DataTables-1.10.20/js/jquery.dataTables.js')) }}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/DataTables-1.10.20/js/dataTables.bootstrap4.js')) }}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')) }}"></script>
+
+    <script src="{{ absolute_url( asset('plugins/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/Buttons-1.6.1/js/buttons.bootstrap4.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/JSZip-2.5.0/jszip.min.js'))}}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/pdfmake-0.1.36/pdfmake.min.js'))}}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/pdfmake-0.1.36/vfs_fonts.js'))}}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/Buttons-1.6.1/js/buttons.html5.min.js'))}}"></script>
+    <script src="{{ absolute_url( asset('plugins/datatables/Buttons-1.6.1/js/buttons.print.min.js'))}}"></script>
+
+    <script src="{{ absolute_url( asset('js/datatables/partenaire_export.js')) }}"></script>
+{% endblock %}

@@ -1,0 +1,82 @@
+<table id="tableAdministration" class="table table-striped projects  bg-white"
+       style="width:100%">
+    <thead>
+    <tr>
+        <th class="align-middle">Nom</th>
+        <th class="align-middle">Adresse</th>
+        <th class="align-middle">téléphone</th>
+        <th class="align-middle">Mail</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for partenaire in partenaires %}
+        <tr>
+            <td class="align-middle">
+                <a href="{{ path('partenaire_show',{id:partenaire.id}) }}">
+                    {% if partenaire.enable %}
+                        {{ partenaire.name }}
+                    {% else %}
+                        <span class="text-danger text-bold">
+                           {{ partenaire.name }}
+                        </span>
+                    {% endif %}
+                </a>
+            </td>
+            <td class="align-middle">
+                <small>
+                    {% if partenaire.addComp1 %}
+                        {{ partenaire.addComp1 }}
+                    {% endif %}
+                    {% if partenaire.addComp2 %}
+                       <br/> {{ partenaire.addComp2 }}
+                    {% endif %}
+                    {% if partenaire.addCp %}
+                        <br/> {{ partenaire.addCp }}
+                    {% endif %}
+                </small>
+            </td>
+            <td class="text-center  align-middle">
+                {{ partenaire.phone1 }}
+                {% if partenaire.phone1 and partenaire.phone2 %}
+                    <br>
+                {% endif %}
+                {{ partenaire.phone2 }}
+            </td>
+            <td class="talign-middle">
+                {% if partenaire.mail1 %}
+                    <a href="mailto:// {{ partenaire.mail1 }}">
+                        {{ partenaire.mail1 }}
+                    </a>
+                {% endif %}
+                {% if partenaire.mail1 and partenaire.mail2 %}
+                    <br>
+                {% endif %}
+                {% if partenaire.mail2 %}
+                    <a href="mailto:// {{ partenaire.mail2 }}">
+                        {{ partenaire.mail2 }}
+                    </a>
+                {% endif %}
+            </td>
+            <td class="project-actions text-right">
+                {{ include('share/__btn_show.html.twig',
+                    {   'url':'partenaire_show',
+                        'id':partenaire.id,
+                        'sm':true
+                    }) }}
+
+                <span class="mb-2"></span>
+                {{ include('share/__btn_edit.html.twig',
+                    {   'url':'partenaire_edit',
+                        'id':partenaire.id,
+                        'sm':true
+                    }) }}
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="6">Aucun d'enregistrement</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

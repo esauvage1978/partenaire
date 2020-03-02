@@ -4,15 +4,19 @@
 namespace App\Repository;
 
 
+use App\Dto\ContactDto;
 use App\Dto\DtoInterface;
 use App\Entity\Contact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepositoryInterface
+class ContactDtoRepository extends ServiceEntityRepository implements DtoRepositoryInterface
 {
     use TraitDtoRepository;
+
+    const SELECT_ALL='select_all';
+    const SELECT_PAGINATOR='select';
 
     const ALIAS = 'd';
 
@@ -35,23 +39,31 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         $this->initialise_orderBy();
 
         return $this->builder
-                ->getQuery()->getSingleScalarResult();
+            ->getQuery()->getSingleScalarResult();
     }
 
-    public function findAllForDto(DtoInterface $dto,$page=null, $limit=null)
+    public function findAllForDtoPaginator(DtoInterface $dto, $page = null, $limit = null,$select=self::SELECT_ALL)
     {
         /**
          * var ContactDto
          */
         $this->dto = $dto;
 
-        $this->initialise_select();
+        switch($select) {
+            case self::SELECT_PAGINATOR:
+                $this->initialise_select();
+                break;
+            default:
+                $this->initialise_selectAll();
+                break;
+
+        }
 
         $this->initialise_where();
 
         $this->initialise_orderBy();
 
-        if(empty($page)) {
+        if (empty($page)) {
             $this->builder
                 ->getQuery()
                 ->getResult();
@@ -64,27 +76,74 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         return new Paginator($this->builder);
     }
 
+    public function findAllForDto(DtoInterface $dto,$select=self::SELECT_ALL)
+    {
+        /**
+         * var ContactDto
+         */
+        $this->dto = $dto;
+
+        switch($select) {
+            case self::SELECT_PAGINATOR:
+                $this->initialise_select();
+                break;
+            default:
+                $this->initialise_selectAll();
+                break;
+
+        }
+
+        $this->initialise_where();
+
+        $this->initialise_orderBy();
+
+       return $this->builder
+            ->getQuery()
+            ->getResult();
+
+    }
+
     private function initialise_select()
-{
-    $this->builder = $this->createQueryBuilder(self::ALIAS)
-        ->select(
-            self::ALIAS,
-            CiviliteRepository::ALIAS,
-            FonctionRepository::ALIAS
-        )
-        ->leftJoin(self::ALIAS . '.civilite', CiviliteRepository::ALIAS)
-        ->leftJoin(self::ALIAS . '.fonction', FonctionRepository::ALIAS);
-}
+    {
+        $this->builder = $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                CiviliteRepository::ALIAS,
+                FonctionRepository::ALIAS
+            )
+
+            ->leftJoin(self::ALIAS . '.civilite', CiviliteRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.fonction', FonctionRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.roles', RoleRepository::ALIAS);
+    }
+    private function initialise_selectAll()
+    {
+        $this->builder = $this->createQueryBuilder(self::ALIAS)
+            ->select(
+                self::ALIAS,
+                CiviliteRepository::ALIAS,
+                FonctionRepository::ALIAS
+            )
+            ->leftJoin(self::ALIAS . '.civilite', CiviliteRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.fonction', FonctionRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.roles', RoleRepository::ALIAS);
+
+        if (empty($this->dto->getRole())) {
+            $this->builder->addSelect(RoleRepository::ALIAS);
+        }
+    }
     private function initialise_selectCount()
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('count('.self::ALIAS.'.id)')
+            ->select('count(' . self::ALIAS . '.id)')
             ->leftJoin(self::ALIAS . '.civilite', CiviliteRepository::ALIAS)
-            ->leftJoin(self::ALIAS . '.fonction', FonctionRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.fonction', FonctionRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.roles', RoleRepository::ALIAS);
     }
+
     private function initialise_where()
     {
-        $this->params=[];
+        $this->params = [];
         $dto = $this->dto;
 
         $this->builder
@@ -94,6 +153,10 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         $this->initialise_where_civilite();
 
         $this->initialise_where_fonction();
+
+        $this->initialise_where_enable();
+
+        $this->initialise_where_role();
 
         $this->initialise_where_search();
 
@@ -119,6 +182,25 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         }
     }
 
+    private function initialise_where_enable()
+    {
+        if (!empty($this->dto->getEnable())) {
+            if($this->dto->getEnable()== ContactDto::TRUE) {
+                $this->builder->andwhere(self::ALIAS . '.enable= true');
+            } elseif($this->dto->getEnable()== ContactDto::FALSE) {
+                $this->builder->andwhere(self::ALIAS . '.enable= false');
+            }
+        }
+    }
+
+    private function initialise_where_role()
+    {
+        if (!empty($this->dto->getRole())) {
+            $this->builder->andwhere(RoleRepository::ALIAS . '.id = :roleid');
+            $this->addParams('roleid', $this->dto->getRole()->getId());
+        }
+    }
+
     private function initialise_where_search()
     {
         $dto = $this->dto;
@@ -126,14 +208,14 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         if (!empty($dto->getWordSearch())) {
             $builder
                 ->andwhere(
-                    self::ALIAS . '.content like :search'.
-                    ' OR ' . self::ALIAS . '.name like :search'.
-                    ' OR ' . self::ALIAS . '.phone1 like :search'.
-                    ' OR ' . self::ALIAS . '.phone2 like :search'.
-                    ' OR ' . self::ALIAS . '.mail1 like :search'.
-                    ' OR ' . self::ALIAS . '.mail2 like :search'.
-                ' OR ' . CiviliteRepository::ALIAS . '.name like :search'.
-                ' OR ' . FonctionRepository::ALIAS . '.name like :search');
+                    self::ALIAS . '.content like :search' .
+                    ' OR ' . self::ALIAS . '.name like :search' .
+                    ' OR ' . self::ALIAS . '.phone1 like :search' .
+                    ' OR ' . self::ALIAS . '.phone2 like :search' .
+                    ' OR ' . self::ALIAS . '.mail1 like :search' .
+                    ' OR ' . self::ALIAS . '.mail2 like :search' .
+                    ' OR ' . CiviliteRepository::ALIAS . '.name like :search' .
+                    ' OR ' . FonctionRepository::ALIAS . '.name like :search');
 
             $this->addParams('search', '%' . $dto->getWordSearch() . '%');
         }
@@ -145,7 +227,6 @@ class ContactDtoRepository   extends ServiceEntityRepository implements DtoRepos
         $this->builder
             ->orderBy(self::ALIAS . '.name', 'ASC');
     }
-
 
 
 }

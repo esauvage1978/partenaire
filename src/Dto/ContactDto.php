@@ -6,6 +6,9 @@ use App\Entity\Civilite;
 
 class ContactDto implements DtoInterface
 {
+    const FALSE='false';
+    const TRUE='true';
+
     /**
      * @var ?string
      */
@@ -19,13 +22,20 @@ class ContactDto implements DtoInterface
      */
     private $fonction;
     /**
-     * @var ?String
+     * @var ?Role
      */
-    private $actif;
+    private $role;
+
     /**
      * @var ?String
      */
     private $page;
+    /**
+     * @var ?String
+     */
+    private $enable;
+
+
     /**
      * @return mixed
      */
@@ -83,18 +93,18 @@ class ContactDto implements DtoInterface
     /**
      * @return mixed
      */
-    public function getActif()
+    public function getRole()
     {
-        return $this->actif;
+        return $this->role;
     }
 
     /**
-     * @param mixed $actif
+     * @param mixed $role
      * @return ContactDto
      */
-    public function setActif($actif)
+    public function setRole($role)
     {
-        $this->actif = $actif;
+        $this->role = $role;
         return $this;
     }
 
@@ -113,6 +123,23 @@ class ContactDto implements DtoInterface
     public function setPage($page)
     {
         $this->page = $page;
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getEnable()
+    {
+        return $this->enable;
+    }
+
+    /**
+     * @param mixed $enable
+     * @return ContactDto
+     */
+    public function setEnable($enable)
+    {
+        $this->enable = $enable;
         return $this;
     }
 }

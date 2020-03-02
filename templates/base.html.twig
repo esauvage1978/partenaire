@@ -113,7 +113,7 @@
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ absolute_url( asset('plugins/jquery-ui/jquery-ui.min.js')) }}"></script>
 
-{% block javascripts %}{% endblock %}
+
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
     $.widget.bridge('uibutton', $.ui.button)
@@ -164,6 +164,6 @@
         $('[data-toggle="tooltip"]').tooltip();
     })
 </script>
-
+{% block javascripts %}{% endblock %}
 </body>
 </html>

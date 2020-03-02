@@ -9,7 +9,15 @@
 {% endblock %}
 
 {% block body_header %}
-    {{ include('admin/_body_header.html.twig', {domaine: 'Contacts' }) }}
+
+    {% if paginator.nbrTotal==0 %}
+        {% set title='Aucun contact trouvé' %}
+    {% elseif paginator.nbrTotal==1 %}
+        {% set title='1 contact trouvé' %}
+    {% else %}
+        {% set title=paginator.nbrTotal ~' contacts trouvés' %}
+    {% endif %}
+    {{ include('admin/_body_header.html.twig', {domaine: title }) }}
 {% endblock %}
 
 {% block body %}
@@ -20,18 +28,32 @@
             <div class="sticky-top mb-3">
 
                 <h4 class="text-purple mt-5  text-center">
-                    <small><i class="fas fa-search"></i></small> Recherche
+                   &nbsp;
                 </h4>
 
-                <div class="card mt-3">
-                    <div class="card-body">
-                        {{ form_row(form.wordSearch) }}
-                        {{ form_row(form.civilite) }}
-                        {{ form_row(form.fonction) }}
+                <div class="card mt-3 bg-light">
+                    <div class="card-body row">
+
+                        <div class="col-12">
+                            {{ form_row(form.wordSearch) }}
+                        </div>
+                        <div class="col-6 ">
+                            {{ form_row(form.civilite) }}
+                        </div>
+                        <div class="col-6 float-left">
+                            {{ form_row(form.enable) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_row(form.fonction) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_row(form.role) }}
+                        </div>
                         <div class="d-none">
                             {{ form_row(form.page) }}
                         </div>
                     </div>
+
                     <div class="card-footer">
                         {{ include('share/__btn_recherche.html.twig') }}
 
@@ -44,7 +66,6 @@
                     </div>
                     <!-- /.card-body -->
                 </div>
-
 
 
                 {% if is_granted('ROLE_USER') %}
@@ -87,11 +108,12 @@
             $('#contact_export_wordSearch').val($('#contact_wordSearch').val());
             $('#contact_export_civilite').val($('#contact_civilite').val());
             $('#contact_export_fonction').val($('#contact_fonction').val());
+            $('#contact_export_role').val($('#contact_role').val());
+            $('#contact_export_enable').val($('#contact_enable').val());
             $('#exporter').click();
         }
 
-        function paginator(page)
-        {
+        function paginator(page) {
             $('#contact_page').val(page);
             $('#recherche').click();
         }

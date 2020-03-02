@@ -50,7 +50,7 @@ abstract class AppControllerAbstract extends AbstractController
             if ($manager->save($entity)) {
                 $this->addFlash(self::SUCCESS, $message);
 
-                if(empty($entity->getId())) {
+                if(!empty($entity->getId())) {
                     return $this->redirectToRoute($domaine . '_edit', ['id' => $entity->getId()]);
                 } else {
                     return $this->redirectToRoute($domaine . '_index' );

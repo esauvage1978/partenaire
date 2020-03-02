@@ -2,19 +2,19 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Fonction;
 use App\Entity\Civilite;
 use App\Entity\Contact;
+use App\Entity\Fonction;
+use App\Helper\FixturesImportData;
 use App\Repository\CiviliteRepository;
 use App\Repository\FonctionRepository;
 use App\Validator\ContactValidator;
-use App\Helper\FixturesImportData;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
 
-class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
+class Step1030_ContactFixtures extends Fixture implements FixtureGroupInterface
 {
     const FILENAME = 'asr_box_contact';
     /**
@@ -48,17 +48,18 @@ class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
         CiviliteRepository $civiliteRepository,
         FonctionRepository $fonctionRepository,
         EntityManagerInterface $entityManagerI
-    ) {
+    )
+    {
         $this->fixturesImportData = $fixturesImportData;
         $this->validator = $validator;
-        $this->civilites=$civiliteRepository->findAll();
-        $this->fonctions=$fonctionRepository->findAll();
-        $this->entityManagerInterface=$entityManagerI;
+        $this->civilites = $civiliteRepository->findAll();
+        $this->fonctions = $fonctionRepository->findAll();
+        $this->entityManagerInterface = $entityManagerI;
     }
 
     public function load(ObjectManager $manager)
     {
-        $data = $this->fixturesImportData->importToArray(self::FILENAME.'.json');
+        $data = $this->fixturesImportData->importToArray(self::FILENAME . '.json');
 
         for ($i = 0; $i < count($data); ++$i) {
             $instance = $this->initialise(new Contact(), $data[$i]);
@@ -71,7 +72,6 @@ class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
     }
 
 
-
     private function checkAndPersist(Contact $instance)
     {
         if ($this->validator->isValid($instance)) {
@@ -79,13 +79,13 @@ class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
             $metadata->setIdGeneratorType(\Doctrine\ORM\Mapping\ClassMetadata::GENERATOR_TYPE_NONE);
             $this->entityManagerInterface->persist($instance);
         } else {
-            var_dump('Validator : '.$this->validator->getErrors($instance));
+            var_dump('Validator : ' . $this->validator->getErrors($instance));
         }
     }
 
     public function getInstanceByName(?string $name, $entitys)
     {
-        if(empty($name)) {
+        if (empty($name)) {
             return null;
         }
 
@@ -111,14 +111,14 @@ class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
             ->setContent($data['description'])
             ->setPhone1($data['telephone1'])
             ->setPhone2($data['telephone2'])
-            ->setMail1($data['mail1'])
-            ->setMail2($data['mail2']);
+            ->setMail1($this->check_mail( $data['mail1']))
+            ->setMail2($this->check_mail($data['mail2']));
 
-        if(!empty($civilite)) {
+        if (!empty($civilite)) {
             $instance->setCivilite($civilite);
         }
 
-        if(!empty($fonction)) {
+        if (!empty($fonction)) {
             $instance->setFonction($fonction);
         }
 
@@ -130,5 +130,13 @@ class Step1030_ContactFixtures extends Fixture implements  FixtureGroupInterface
         return ['step1030'];
     }
 
-
+    private function check_mail(?string $mail)
+    {
+        if (empty($mail)) {
+            return null;
+        }
+        $mailModif=trim($mail);
+        $translit = array('Á'=>'A','À'=>'A','Â'=>'A','Ä'=>'A','Ã'=>'A','Å'=>'A','Ç'=>'C','É'=>'E','È'=>'E','Ê'=>'E','Ë'=>'E','Í'=>'I','Ï'=>'I','Î'=>'I','Ì'=>'I','Ñ'=>'N','Ó'=>'O','Ò'=>'O','Ô'=>'O','Ö'=>'O','Õ'=>'O','Ú'=>'U','Ù'=>'U','Û'=>'U','Ü'=>'U','Ý'=>'Y','á'=>'a','à'=>'a','â'=>'a','ä'=>'a','ã'=>'a','å'=>'a','ç'=>'c','é'=>'e','è'=>'e','ê'=>'e','ë'=>'e','í'=>'i','ì'=>'i','î'=>'i','ï'=>'i','ñ'=>'n','ó'=>'o','ò'=>'o','ô'=>'o','ö'=>'o','õ'=>'o','ú'=>'u','ù'=>'u','û'=>'u','ü'=>'u','ý'=>'y','ÿ'=>'y');
+        return  strtr($mailModif, $translit);
+    }
 }
