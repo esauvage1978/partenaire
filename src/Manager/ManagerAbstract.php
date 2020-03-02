@@ -3,7 +3,6 @@
 namespace App\Manager;
 
 use App\Entity\EntityInterface;
-use App\Helper\IndicatorValueHistoryCreate;
 use App\Validator\LocalValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 

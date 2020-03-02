@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ parent() }} Page d'accueil {% endblock %}
+
+{% block body %}
+
+    {% if app.user.emailvalidated == false %}
+        <div class="alert alert-danger alert-dismissible mt-2">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h5><i class="icon fas fa-ban"></i> Adresse mail non vérifiée !</h5>
+            <p>
+                Attention votre adresse mail n'a pas encore été vérifiée.
+            </p>
+            <p>
+                <a href="{{ path('profil_sendmail_email_validated') }}">Cliquer ici</a> pour renvoyer le lien de
+                vérification.
+            </p>
+        </div>
+    {% endif %}
+
+
+    <div class="row bg-white ">
+        <div class="col-sm-4"
+             style="
+                     background-image: url('{{ absolute_url( asset('img/fond_cut.png')) }}') ;
+                     background-repeat: no-repeat;
+                     background-position: 100% 50px;
+                     "
+        >
+
+        </div>
+        <div class="col-sm-8 pr-4 pt-5">
+            <div class="text-center">
+                <h1 class="font-weight-bold">PARTENAIRE</h1>
+                <span class="text-muted">Application de gestion des partenaires</span>
+            </div>
+            <br/>
+            <br/>
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3 id="badge_contact" class="">
+                                <i id="overlay_contact" class=" d-none fas  fa-sync-alt"></i>
+                            </h3>
+
+                            <p>Contacts</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-users"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row justify-content-center card-deck mt-5">
+
+                <div class="col-lg-6 col-sm-12" id="work">
+                    <div class="card card-outline card-danger bg-light  " id="div_urgent">
+                        <div class="card-header text-center">
+                            <h3>
+                                URGENT
+                            </h3>
+                        </div>
+                        <div class="card-body list-group list-group-flush p-1" id="div_urgent_body">
+                        </div>
+
+                        <!-- /.card -->
+                    </div>
+
+                    <div class="card card-outline card-success  bg-light " id="div_avenir">
+                        <div class="card-header text-center">
+                            <h3>
+                                A VENIR
+                            </h3>
+                        </div>
+                        <div class="card-body list-group list-group-flush p-1" id="div_avenir_body">
+                        </div>
+
+                        <!-- /.card -->
+                    </div>
+                    <div class="card-body">
+                    </div>
+
+                </div>
+                <div class="col-lg-6 col-sm-12 ">
+                    <div class="card card-outline card-warning  bg-light " id="div_encours">
+                        <div class="card-header text-center">
+                            <h3>
+                                EN COURS
+                            </h3>
+                        </div>
+                        <div class="card-body list-group list-group-flush p-1" id="div_encours_body">
+
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+                    <div class="card card-outline card-primary  bg-light " id="div_supervision">
+                        <div class="card-header text-center">
+                            <h3>
+                                SUPERVISION
+                            </h3>
+                        </div>
+                        <div class="card-body list-group list-group-flush p-1" id="div_supervision_body">
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ absolute_url( asset('js/home_action.js')) }}"></script>
+    <script>
+        $(function () {
+            searchCount('contact', '{{ absolute_url(path('ajax_contact_count')) }}','contact');
+        });
+    </script>
+{% endblock %}

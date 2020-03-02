@@ -8,7 +8,9 @@ use App\Dto\DtoInterface;
 
 interface DtoRepositoryInterface
 {
-    public function findAllForDto(DtoInterface $dto,$page=null, $limit=null);
+    public function findAllForDtoPaginator(DtoInterface $dto,$page=null, $limit=null);
+
+    public function findAllForDto(DtoInterface $dto);
 
     public function countForDto(DtoInterface $dto);
 }

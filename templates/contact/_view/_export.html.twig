@@ -9,6 +9,7 @@
         <th class="align-middle">téléphone secondaire</th>
         <th class="align-middle">Mail principal</th>
         <th class="align-middle">Mail secondaire</th>
+        <th class="align-middle">Rôles</th>
         <th class="align-middle">Description</th>
     </tr>
     </thead>
@@ -55,9 +56,14 @@
                     </a>
                 {% endif %}
             </td>
-
             <td class="project-actions text-right">
-                {{ contact.content }}
+                {% for role in contact.roles %}
+                    {{ role.name }}
+                {% endfor %}
+
+            </td>
+            <td class="project-actions text-right">
+                {{ contact.content |raw}}
 
             </td>
         </tr>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} Contacts{% endblock %}
+{% block title %}{{ parent() }} Contact{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ absolute_url( asset('plugins/select2/css/select2.min.css')) }}">
@@ -34,6 +34,12 @@
 
     {% endif %}
 
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_history.html.twig',
+        {   url:'contact_history',
+            id:contact.id
+        }) }}
 
     <span class="mb-3"></span>
 
@@ -53,30 +59,35 @@
 {% block body %}
 
 
-
+    {{ form_start(form) }}
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            {{ form_start(form) }}
+        <div class="row col-12 ">
+            <div id="col1"
+                 class="col-sm-12  order-sm-second  col-md-12 order-sm-second col-lg-6 order-lg-second col-xl-2 order-xl-first ">
+                {{ include('contact/_edit/_afficher.html.twig') }}
+            </div>
+            <div id="col2"
+                 class=" col-sm-12  order-sm-first  col-md-12 order-md-first col-lg-12  order-lg-first col-xl-7 order-xl-second bg-white p-5">
+                {{ include('contact/_edit/_name.html.twig') }}
+                <div class="d-none">
+                    <button name="update" id="update">{{ button_label|default('Save') }}</button>
+                </div>
+            </div>
+            <div id="col3" class="col-sm-12 col-md-12 col-lg-6 col-xl-3 ">
 
-            <div class="card ">
-
-                {{ include('contact/_form.html.twig') }}
-
+                {{ include('contact/_edit/_mail.html.twig') }}
+                {{ include('contact/_edit/_phone.html.twig') }}
             </div>
 
-            <div class="d-none">
-                {{ include('share/__btn_save.html.twig') }}
-                {{ form_rest(form) }}
-            </div>
-
-            {{ form_end(form) }}
-
-
-            <div class="d-none">
-                {{ include('share/_delete_form.html.twig',{domaine: 'contact',id:contact.id}) }}
-            </div>
         </div>
+
     </div>
+
+    <div class="d-none">
+        {{ include('share/__btn_save.html.twig') }}
+    </div>
+    {{ form_end(form) }}
+
 {% endblock %}
 
 

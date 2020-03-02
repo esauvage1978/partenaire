@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,12 +63,27 @@ class Contact implements EntityInterface
      */
     private $enable;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Role", inversedBy="contacts")
+     */
+    private $roles;
+
+    /**
+     * @ORM\OneToMany(targetEntity="History", mappedBy="contact")
+     */
+    private $histories;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+        $this->histories = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
-
 
     public function setId(int $id): self
     {
@@ -74,6 +91,7 @@ class Contact implements EntityInterface
 
         return $this;
     }
+
     public function getName(): ?string
     {
         return $this->name;
@@ -178,6 +196,63 @@ class Contact implements EntityInterface
     public function setEnable(bool $enable): self
     {
         $this->enable = $enable;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Role[]
+     */
+    public function getRoles(): Collection
+    {
+        return $this->roles;
+    }
+
+    public function addRole(Role $role): self
+    {
+        if (!$this->roles->contains($role)) {
+            $this->roles[] = $role;
+        }
+
+        return $this;
+    }
+
+    public function removeRole(Role $role): self
+    {
+        if ($this->roles->contains($role)) {
+            $this->roles->removeElement($role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|History[]
+     */
+    public function getHistories(): Collection
+    {
+        return $this->histories;
+    }
+
+    public function addHistory(History $history): self
+    {
+        if (!$this->histories->contains($history)) {
+            $this->histories[] = $history;
+            $history->setContact($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHistory(History $history): self
+    {
+        if ($this->histories->contains($history)) {
+            $this->histories->removeElement($history);
+            // set the owning side to null (unless already changed)
+            if ($history->getContact() === $this) {
+                $history->setContact(null);
+            }
+        }
 
         return $this;
     }

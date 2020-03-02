@@ -85,16 +85,20 @@ abstract class PaginatorAbstract
 
     public function getDatas()
     {
-        return $this->dtoRepository->findAllForDto(
+        return $this->dtoRepository->findAllForDtoPaginator(
             $this->dto,
             $this->page,
-            $this->nbrLimitShow);
+            $this->nbrLimitShow,
+            $this->dtoRepository::SELECT_PAGINATOR);
     }
 
     public function getParams()
     {
-        return ['nbrPages' => $this->getNbrSheets(),
-            'currentPage' => $this->page];
+        return [
+            'nbrPages' => $this->getNbrSheets(),
+            'currentPage' => $this->page,
+            'nbrTotal'=>$this->nbrTotal
+        ];
     }
 
     private function calculNbrTotal()

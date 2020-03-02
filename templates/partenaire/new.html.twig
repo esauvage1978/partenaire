@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} Partenaire{% endblock %}
+
+{% block stylesheets %}
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/select2/css/select2.min.css')) }}">
+    <link rel="stylesheet"
+          href="{{ absolute_url( asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')) }}">
+
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')) }}">
+{% endblock %}
+
+{% block body_header %}
+    {{ include('admin/_body_header.html.twig', {'domaine': 'Ajout d\'un partenaire' , 'index' : 'partenaire_index'}) }}
+{% endblock %}
+
+{% block sidebar_sommaire %}
+
+{% endblock %}
+
+{% block sidebar_button %}
+
+    {{ include('share/__btn_save_onclick.html.twig') }}
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_return_list.html.twig',
+        {   url:'partenaire_index'
+        }) }}
+
+{% endblock %}
+
+{% block body %}
+
+
+    {{ form_start(form) }}
+    <div class="row justify-content-center">
+        <div class="row col-12 ">
+            <div id="col1"
+                 class="col-sm-12  order-sm-second  col-md-12 order-sm-second col-lg-6 order-lg-second col-xl-2 order-xl-first ">
+                {{ include('partenaire/_edit/_afficher.html.twig') }}
+                {{ include('partenaire/_edit/_circonscription.html.twig') }}
+            </div>
+            <div id="col2"
+                 class=" col-sm-12  order-sm-first  col-md-12 order-md-first col-lg-12  order-lg-first col-xl-7 order-xl-second bg-white pl-5 pr-5">
+                {{ include('partenaire/_edit/_name.html.twig') }}
+                <div class="d-none">
+                    <button name="update" id="update">{{ button_label|default('Save') }}</button>
+                </div>
+            </div>
+            <div id="col3" class="col-sm-12 col-md-12 col-lg-6 col-xl-3 ">
+                {{ include('partenaire/_edit/_adresse.html.twig') }}
+                {{ include('partenaire/_edit/_mail.html.twig') }}
+                {{ include('partenaire/_edit/_phone.html.twig') }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="d-none">
+        {{ include('share/__btn_save.html.twig') }}
+    </div>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Select2 -->
+    <script src="{{ absolute_url( asset('plugins/select2/js/select2.full.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('js/add_sidebar.js')) }}"></script>
+{% endblock %}

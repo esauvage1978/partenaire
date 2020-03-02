@@ -37,8 +37,8 @@ class LoadFixturesCommand extends Command
         $this->loadFixtures('1010');
         $this->loadFixtures('1020');
         $this->loadFixtures('1030');
-        /*$this->loadFixtures('1040');
-        $this->loadFixtures('1050');
+        $this->loadFixtures('1040');
+        /*$this->loadFixtures('1050');
         $this->loadFixtures('1060');
         $this->loadFixtures('1070');
         $this->loadFixtures('1080');
