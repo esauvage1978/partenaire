@@ -78,9 +78,22 @@ class Partenaire implements EntityInterface
      */
     private $histories;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Contact", inversedBy="referentPartenaires")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $referent;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Contact", inversedBy="partenaires")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $contacts;
+
     public function __construct()
     {
         $this->histories = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,6 +266,44 @@ class Partenaire implements EntityInterface
             if ($history->getPartenaire() === $this) {
                 $history->setPartenaire(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getReferent(): ?Contact
+    {
+        return $this->referent;
+    }
+
+    public function setReferent(?Contact $referent): self
+    {
+        $this->referent = $referent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Contact[]
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts[] = $contact;
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->contains($contact)) {
+            $this->contacts->removeElement($contact);
         }
 
         return $this;

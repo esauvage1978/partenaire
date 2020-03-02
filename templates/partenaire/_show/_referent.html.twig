@@ -1,0 +1,8 @@
+{% if partenaire.referent %}
+    <article class=" pt-3">
+        <h5 class="text-purple p-1 ">
+            Référent
+        </h5>
+        {{ include('contact/_view/_vignette.html.twig',{contact: partenaire.referent}) }}
+    </article>
+{% endif %}

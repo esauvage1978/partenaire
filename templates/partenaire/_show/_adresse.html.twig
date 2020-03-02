@@ -1,0 +1,14 @@
+<section>
+    <strong><i class="fas fa-map-marker-alt mr-1"></i> Adresse</strong>
+    <p class="text-muted">
+        {% if partenaire.addcomp1 %}
+            {{ partenaire.addcomp1 }}<br/>
+        {% endif %}
+        {% if partenaire.addcomp2 %}
+            {{ partenaire.addcomp2 }}<br/>
+        {% endif %}
+        {% if partenaire.addcp %}
+            {{ partenaire.addcp }}<br/>
+        {% endif %}
+    </p>
+</section>
