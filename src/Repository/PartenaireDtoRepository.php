@@ -108,9 +108,11 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-                CityRepository::ALIAS
+                CityRepository::ALIAS,
+                CategoryRepository::ALIAS
             )
-            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.category', CategoryRepository::ALIAS);
     }
 
     private function initialise_selectAll()
@@ -118,16 +120,19 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
                 self::ALIAS,
-                CityRepository::ALIAS
+                CityRepository::ALIAS,
+                CategoryRepository::ALIAS
             )
-            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.category', CategoryRepository::ALIAS);
     }
 
     private function initialise_selectCount()
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select('count(' . self::ALIAS . '.id)')
-            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS)
+            ->leftJoin(self::ALIAS . '.category', CategoryRepository::ALIAS);
     }
 
     private function initialise_where()
@@ -143,6 +148,8 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
         $this->initialise_where_circonscription();
 
         $this->initialise_where_city();
+
+        $this->initialise_where_category();
 
         $this->initialise_where_search();
 
@@ -182,6 +189,14 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
         }
     }
 
+    private function initialise_where_category()
+    {
+        if (!empty($this->dto->getCategory())) {
+            $this->builder->andwhere(CategoryRepository::ALIAS . '.id = :categoryid');
+            $this->addParams('categoryid', $this->dto->getCategory());
+        }
+    }
+
     private function initialise_where_search()
     {
         $dto = $this->dto;
@@ -196,6 +211,9 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
                     ' OR ' . self::ALIAS . '.name like :search' .
                     ' OR ' . self::ALIAS . '.phone1 like :search' .
                     ' OR ' . self::ALIAS . '.phone2 like :search' .
+                    ' OR ' . self::ALIAS . '.mail1 like :search' .
+                    ' OR ' . CityRepository::ALIAS . '.name like :search' .
+                    ' OR ' . CategoryRepository::ALIAS . '.name like :search' .
                     ' OR ' . self::ALIAS . '.mail1 like :search' .
                     ' OR ' . self::ALIAS . '.mail2 like :search');
 

@@ -44,6 +44,9 @@
                         <div class="col-12">
                             {{ form_row(form.city) }}
                         </div>
+                        <div class="col-12">
+                            {{ form_row(form.category) }}
+                        </div>
                         <div class="col-6 float-left">
                             {{ form_row(form.enable) }}
                         </div>
@@ -109,6 +112,7 @@
             $('#partenaire_export_wordSearch').val($('#partenaire_wordSearch').val());
             $('#partenaire_export_enable').val($('#partenaire_enable').val());
             $('#partenaire_export_city').val($('#partenaire_city').val());
+            $('#partenaire_export_category').val($('#partenaire_category').val());
             $('#partenaire_export_circonscription').val($('#partenaire_circonscription').val());
             $('#exporter').click();
         }

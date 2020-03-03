@@ -8,6 +8,7 @@ use App\Entity\Fonction;
 use App\Entity\Civilite;
 use App\Entity\Role;
 use App\Form\AppTypeAbstract;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -33,6 +34,12 @@ class ContactDtoTypeAbstract extends AppTypeAbstract
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('enable', ChoiceType::class, [
                 'choices' => $binaire,
@@ -49,6 +56,12 @@ class ContactDtoTypeAbstract extends AppTypeAbstract
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('civilite', EntityType::class, [
                 self::CSS_CLASS => Civilite::class,
@@ -56,6 +69,12 @@ class ContactDtoTypeAbstract extends AppTypeAbstract
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('wordSearch', TextType::class,
                 [

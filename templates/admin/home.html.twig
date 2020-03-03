@@ -37,6 +37,21 @@
                     </table>
                 </div>
             </div>
+            <h3 id="anchor_organisme" class="text-purple">
+                <small><i class="fas fa-users"></i>Partenaire</small>
+            </h3>
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table">
+                        <tbody>
+                        {% if is_granted('ROLE_USER') %}
+                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Ville', 'domaine':'city'} ) }}
+                            {{ include('admin/_entree_unitaire.html.twig',{'title':'Catégorie', 'domaine':'category'} ) }}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
         {% if is_granted('ROLE_GESTIONNAIRE') %}
             <div class="col-6">

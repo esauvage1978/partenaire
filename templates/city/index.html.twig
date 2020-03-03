@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% set title='Rôles' %}
-{% set route_index='role_index' %}
-{% set entityName='role' %}
-{% set entitys=roles %}
+{% set title='Villes' %}
+{% set route_index='city_index' %}
+{% set entityName='city' %}
+{% set entitys=cities %}
 
 {% block title %} {{ parent() }} {{title}} {% endblock %}
 
@@ -30,8 +30,9 @@
                                 <tr>
                                     <th class="all">#</th>
                                     <th class="all">Nom</th>
+                                    <th class="all">Description</th>
                                     <th class="desktop text-center">
-                                        <i class="fa fa-users" data-toggle="tooltip" data-placement="top"
+                                        <i class="fa fa-database" data-toggle="tooltip" data-placement="top"
                                            title="Nombre de contact'"></i>
                                     </th>
                                     <th class="all text-center"></th>
@@ -43,13 +44,15 @@
                                         <td>{{ entity.id }}</td>
                                         <td class="text-{{ entity.enable ? 'gray-dark' : 'danger text-bold' }}">
                                             {{ entity.name }}
-
+                                        </td>
+                                        <td >
+                                            {{ entity.content | raw }}
                                         </td>
                                         <td class="text-center">
-                                            {% if   entity.contacts.count==0 %}
+                                            {% if   entity.partenaires.count==0 %}
                                                 <span class="text-light" ><i class="fas fa-circle"></i></span>
                                             {% else %}
-                                                <small class="badge bg-info">{{ entity.contacts.count}}</small>
+                                                <small class="badge bg-info">{{ entity.partenaires.count}}</small>
                                             {% endif %}
                                         </td>
 

@@ -1,13 +1,6 @@
 <section  class="col-sm-2 ">
-    {% if partenaire.circonscription %}
-        <p class="text-center text-success">
-            <i class="far fa-check-circle fa-3x "></i><br>
-            Circonscription
-        </p>
-    {% else %}
-        <p class="text-center text-warning">
-            <i class="far fa-times-circle fa-3x "></i><br>
-            En dehors de la circonscription
-        </p>
-    {% endif %}
+    <p class="text-center {{ partenaire.circonscription ?'text-success':'text-warning' }}">
+        <i class="fas fa-compress-arrows-alt fa-3x"></i><br>
+        Circonscription
+    </p>
 </section>

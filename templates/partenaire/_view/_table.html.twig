@@ -22,6 +22,12 @@
                         </span>
                     {% endif %}
                 </a>
+                {% if partenaire.category %}
+                    <br/>
+                    <small class="text-muted ">
+                            {{ partenaire.category.name }}
+                    </small>
+                {% endif %}
             </td>
             <td class="align-middle">
                 <small>

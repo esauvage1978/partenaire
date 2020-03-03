@@ -92,8 +92,22 @@ class Partenaire implements EntityInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="partenaires")
+     * @ORM\OrderBy({"name" = "ASC"})
+     *
      */
     private $add_city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="partenaires")
+     * @ORM\OrderBy({"name" = "ASC"})
+     *
+     */
+    private $category;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $follow;
 
     public function __construct()
     {
@@ -322,6 +336,30 @@ class Partenaire implements EntityInterface
     public function setAddCity(?City $add_city): self
     {
         $this->add_city = $add_city;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getFollow(): ?string
+    {
+        return $this->follow;
+    }
+
+    public function setFollow(?string $follow): self
+    {
+        $this->follow = $follow;
 
         return $this;
     }

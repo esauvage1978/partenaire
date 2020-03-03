@@ -6,11 +6,11 @@
         {% endif %}
     </li>
 {% endif %}
-                {% if contact.phone2 %}
-                    <li class="mt-2">
-                        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
-                        {% if contact.phone2 %}
-                            {{ contact.phone2 }}
-                        {% endif %}
-                    </li>
-                {% endif %}
+{% if contact.phone2 %}
+    <li class="mt-2">
+        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
+        {% if contact.phone2 %}
+            {{ contact.phone2 }}
+        {% endif %}
+    </li>
+{% endif %}
