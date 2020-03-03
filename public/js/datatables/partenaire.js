@@ -7,7 +7,7 @@ $(function () {
         paging: false,
         scrollX: true,
         ordering: true,
-        "order": [[1, 'asc']],
+        "order": [[0, 'asc']],
         "columns": [
             null,
             null,

@@ -4,6 +4,7 @@ namespace App\Form\Partenaire;
 
 use App\Dto\ContactDto;
 use App\Dto\PartenaireDto;
+use App\Entity\City;
 use App\Entity\Partenaire;
 use App\Form\AppTypeAbstract;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,6 +23,10 @@ class PartenaireDtoTypeAbstract extends AppTypeAbstract
             'Visible' => PartenaireDto::TRUE,
             'Masqué' => PartenaireDto::FALSE,
         ];
+        $circonscription = [
+            'Oui' => PartenaireDto::TRUE,
+            'En dehors' => PartenaireDto::FALSE,
+        ];
 
         $builder
             ->add('wordSearch', TextType::class,
@@ -37,6 +42,23 @@ class PartenaireDtoTypeAbstract extends AppTypeAbstract
                 'mapped' => true,
                 self::LABEL => 'Afficher',
                 self::REQUIRED=>false
+            ])
+            ->add('circonscription', ChoiceType::class, [
+                'choices' => $circonscription,
+                self::MULTIPLE => false,
+                'expanded' => false,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                'mapped' => true,
+                self::LABEL => 'Circonscription',
+                self::REQUIRED=>false
+            ])
+            ->add('city', EntityType::class, [
+                self::CSS_CLASS => City::class,
+                self::LABEL=>'Ville',
+                self::CHOICE_LABEL => 'name',
+                self::MULTIPLE => false,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                self::REQUIRED => false,
             ])
             ->add('page', TextType::class,
                 [

@@ -30,44 +30,12 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            <ul class="ml-4  fa-ul">
+            <div class="row d-flex justify-content-around align-items-center ">
 
-                {% if contact.phone1 %}
-                    <li class="mt-2">
-                        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
-                        {% if contact.phone1 %}
-                            {{ contact.phone1 }}
-                        {% endif %}
-                    </li>
-                {% endif %}
-                {% if contact.phone2 %}
-                    <li class="mt-2">
-                        <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span>
-                        {% if contact.phone2 %}
-                            {{ contact.phone2 }}
-                        {% endif %}
-                    </li>
-                {% endif %}
-                {% if contact.mail1 %}
-                    <li class="mt-2">
-                        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
-                        {% if contact.mail1 %}
-                            <a href="mailto:// {{ contact.mail1 }}">
-                                {{ contact.mail1 }}
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endif %}
-                {% if contact.mail2 %}
-                    <li class="mt-2">
-                        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
-                        {% if contact.mail2 %}
-                            <a href="mailto:// {{ contact.mail2 }}">
-                                {{ contact.mail2 }}
-                            </a>
-                        {% endif %}
-                    </li>
-                {% endif %}
+            </div>
+            <ul class="ml-4  fa-ul">
+                {{ include('contact/_show/_phone.html.twig') }}
+                {{ include('contact/_show/_mail.html.twig') }}
             </ul>
 
         </div>

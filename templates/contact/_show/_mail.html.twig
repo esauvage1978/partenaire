@@ -1,0 +1,20 @@
+{% if contact.mail1 %}
+    <li class="mt-2">
+        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+        {% if contact.mail1 %}
+            <a href="mailto:// {{ contact.mail1 }}">
+                {{ contact.mail1 }}
+            </a>
+        {% endif %}
+    </li>
+{% endif %}
+{% if contact.mail2 %}
+    <li class="mt-2">
+        <span class="fa-li"><i class="far fa-lg fa-envelope"></i></span>
+        {% if contact.mail2 %}
+            <a href="mailto:// {{ contact.mail2 }}">
+                {{ contact.mail2 }}
+            </a>
+        {% endif %}
+    </li>
+{% endif %}
