@@ -1,6 +1,16 @@
-<div class=" card-header bg-primary " id="anchor_name">
-    <span class="card-title d-flex align-items-center {{ partenaire.enable?'':'text-danger' }}">
+
+
+<div class="card-header  " id="anchor_name">
+    <h3 class="card-title  d-flex align-items-center   {{ partenaire.enable?'':'text-danger' }}">
         <i class="fas fa-database mr-2 fa-2x"></i>
-            {{ partenaire.name }}
-    </span>
+        {{ partenaire.name }}
+    </h3>
+    <div class="card-tools pt-1">
+        <a href="{{ path('category_show',{id:partenaire.category.id}) }}"
+           class="text-white ">
+            {% if partenaire.category %}
+            {{ partenaire.category.name }}
+            {% endif %}
+        </a>
+    </div>
 </div>

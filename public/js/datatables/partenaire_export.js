@@ -24,8 +24,9 @@ $(function () {
             },
             'print'
         ],
-        "order": [[1, 'asc']],
+        "order": [[0, 'asc']],
         "columns": [
+            null,
             null,
             null,
             null,

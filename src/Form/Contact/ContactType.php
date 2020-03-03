@@ -7,6 +7,7 @@ use App\Entity\Fonction;
 use App\Entity\Civilite;
 use App\Entity\Role;
 use App\Form\AppTypeAbstract;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
@@ -26,6 +27,12 @@ class ContactType extends AppTypeAbstract
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('civilite', EntityType::class, [
                 self::CSS_CLASS => Civilite::class,
@@ -33,6 +40,12 @@ class ContactType extends AppTypeAbstract
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('roles', EntityType::class, [
                 self::CSS_CLASS => Role::class,
@@ -40,6 +53,12 @@ class ContactType extends AppTypeAbstract
                 self::MULTIPLE => true,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                        ->select('c')
+                        ->where('c.enable = true')
+                        ->orderBy('c.name', 'ASC');
+                }
             ])
             ->add('mail1', EmailType::class,
                 [

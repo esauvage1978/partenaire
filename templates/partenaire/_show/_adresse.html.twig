@@ -11,7 +11,9 @@
             {{ partenaire.addcp }}
         {% endif %}
         {% if partenaire.addcity %}
+            <a href="{{ path('city_show',{id:partenaire.addcity.id}) }}">
             {{ partenaire.addcity.name }}
+            </a>
         {% endif %}
     </p>
 </section>

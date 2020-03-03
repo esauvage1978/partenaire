@@ -3,6 +3,7 @@
     <thead>
     <tr>
         <th class="align-middle">Nom</th>
+        <th class="align-middle">Catégorie</th>
         <th class="align-middle">téléphone principal</th>
         <th class="align-middle">téléphone secondaire</th>
         <th class="align-middle">Mail principal</th>
@@ -21,6 +22,11 @@
                 <a href="{{ path('partenaire_show',{id:partenaire.id}) }}">
                     {{ partenaire.name }}
                 </a>
+            </td>
+            <td class="text-center  align-middle">
+                {% if partenaire.category %}
+                        {{ partenaire.category.name }}
+                {% endif %}
             </td>
             <td class="text-center  align-middle">
                 {{ partenaire.phone1 }}

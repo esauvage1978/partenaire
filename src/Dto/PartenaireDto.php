@@ -13,7 +13,28 @@ class PartenaireDto implements DtoInterface
      * @var ?string
      */
     private $wordSearch;
+    /**
+     * @var ?Category
+     */
+    private $category;
 
+    /**
+     * @return mixed
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param mixed $category
+     * @return PartenaireDto
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+        return $this;
+    }
 
     /**
      * @var ?String

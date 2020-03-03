@@ -3,15 +3,15 @@
 namespace App\Manager;
 
 use App\Dto\PartenaireDto;
-use App\Entity\City;
+use App\Entity\Category;
 use App\Helper\ToolCollecion;
 use App\Repository\PartenaireDtoRepository;
-use App\Repository\CityRepository;
-use App\Validator\CityValidator;
+use App\Repository\CategoryRepository;
+use App\Validator\CategoryValidator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CityManager
+class CategoryManager
 {
     /**
      * @var EntityManagerInterface
@@ -19,7 +19,7 @@ class CityManager
     private $manager;
 
     /**
-     * @var CityValidator
+     * @var CategoryValidator
      */
     private $validator;
 
@@ -31,7 +31,7 @@ class CityManager
 
     public function __construct(
         EntityManagerInterface $manager,
-        CityValidator $validator,
+        CategoryValidator $validator,
         PartenaireDtoRepository $partenaireRepository
     )
     {
@@ -40,56 +40,56 @@ class CityManager
         $this->partenaireRepository = $partenaireRepository;
     }
 
-    public function save(City $city): bool
+    public function save(Category $category): bool
     {
-        $this->initialise($city);
+        $this->initialise($category);
 
-        if (!$this->validator->isValid($city)) {
+        if (!$this->validator->isValid($category)) {
             return false;
         }
 
-        $this->manager->persist($city);
+        $this->manager->persist($category);
         $this->manager->flush();
 
         return true;
     }
 
-    public function initialise(City $city)
+    public function initialise(Category $category)
     {
 
-        if (!empty($city->getId())) {
+        if (!empty($category->getId())) {
             $dto = new PartenaireDto();
-            $dto->setCity($city);
+            $dto->setCategory($category);
             $this->setRelation(
-                $city,
+                $category,
                 $this->partenaireRepository->findAllForDto($dto),
-                $city->getPartenaires()->toArray()
+                $category->getPartenaires()->toArray()
             );
         }
 
         return true;
     }
 
-    public function setRelation(City $city, $entitysOld, $entitysNew)
+    public function setRelation(Category $category, $entitysOld, $entitysNew)
     {
         $em = new ToolCollecion($entitysOld, $entitysNew);
 
         foreach ($em->getDeleteDiff() as $entity) {
-            $entity->setAddCity(null);
+            $entity->setCategory(null);
         }
 
         foreach ($em->getInsertDiff() as $entity) {
-            $entity->setAddCity($city);
+            $entity->setCategory($category);
         }
     }
 
 
-    public function getErrors(City $entity)
+    public function getErrors(Category $entity)
     {
         return $this->validator->getErrors($entity);
     }
 
-    public function remove(City $entity)
+    public function remove(Category $entity)
     {
         $this->manager->remove($entity);
         $this->manager->flush();

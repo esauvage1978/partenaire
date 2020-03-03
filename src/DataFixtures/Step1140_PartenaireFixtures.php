@@ -2,10 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\City;
 use App\Entity\Contact;
 use App\Entity\Partenaire;
 use App\Helper\FixturesImportData;
+use App\Repository\CategoryRepository;
 use App\Repository\CityRepository;
 use App\Repository\ContactRepository;
 use App\Validator\PartenaireValidator;
@@ -38,6 +40,11 @@ class Step1140_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
     private $cities;
 
     /**
+     * @var Category[]
+     */
+    private $categories;
+
+    /**
      * @var EntityManagerInterface
      */
     private $entityManagerInterface;
@@ -47,6 +54,7 @@ class Step1140_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
         PartenaireValidator $validator,
         EntityManagerInterface $entityManagerI,
         ContactRepository $contactRepository,
+        CategoryRepository $categoryRepository,
         CityRepository $cityRepository
     )
     {
@@ -55,6 +63,7 @@ class Step1140_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
         $this->entityManagerInterface = $entityManagerI;
         $this->contacts = $contactRepository->findAll();
         $this->cities = $cityRepository->findAll();
+        $this->categories = $categoryRepository->findAll();
     }
 
 
@@ -119,6 +128,8 @@ class Step1140_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
         /** @var City $city */
         $city = $this->getInstanceByName($data['adresse_ville'], $this->cities);
 
+        /** @var Category $category */
+        $category = $this->getInstanceByName($data['categorie'], $this->categories);
 
         $instance
             ->setId($data['n0_num'])
@@ -140,6 +151,10 @@ class Step1140_PartenaireFixtures extends Fixture implements FixtureGroupInterfa
 
         if (!empty($city)) {
             $instance->setAddCity($city);
+        }
+
+        if (!empty($category)) {
+            $instance->setCategory($category);
         }
 
         return $instance;

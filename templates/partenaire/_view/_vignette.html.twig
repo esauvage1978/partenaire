@@ -6,13 +6,29 @@
                 <a class="text-white pl-2" href="{{ path('partenaire_show',{id:partenaire.id}) }}" title="Affiche le détail de ce partenaire">
                     {{ partenaire.name }}
                 </a>
+
             </span>
         </div>
         <div class="card-body ">
-            <h2 class="lead">
+            <div class="d-flex justify-content-between">
+                <p class="float-left {{ partenaire.circonscription ?'text-success':'text-warning' }} "
+                   data-html="true"
+                   data-toggle="tooltip" data-placement="top"
+                   title="{{ partenaire.circonscription ?
+                   'Ce partenaire est dans la circonscription':
+                   'Ce partenaire est en dehors de la circonscription' }}">
+                    <i class="fas fa-compress-arrows-alt "></i><br>
+                </p>
 
-            </h2>
-            <hr/>
+                {% if partenaire.category %}
+                    <span class="text-muted ">
+                        <a href="{{ path('category_show',{id:partenaire.category.id}) }}">
+                            {{ partenaire.category.name }}
+                        </a>
+                    </span>
+                {% endif %}
+
+            </div>
 
             <ul class="ml-4  fa-ul">
 

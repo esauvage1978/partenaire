@@ -39,7 +39,22 @@
             <div class="row justify-content-center">
                 <div class="col-lg-3 col-6">
                     <!-- small box -->
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h3 id="badge_partenaire" class="">
+                                <i id="overlay_partenaire" class=" d-none fas  fa-sync-alt"></i>
+                            </h3>
+                            <p>Partenaires</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-database"></i>
+                        </div>
+                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <!-- small box -->
+                    <div class="small-box bg-purple">
                         <div class="inner">
                             <h3 id="badge_contact" class="">
                                 <i id="overlay_contact" class=" d-none fas  fa-sync-alt"></i>
@@ -129,6 +144,7 @@
     <script src="{{ absolute_url( asset('js/home_action.js')) }}"></script>
     <script>
         $(function () {
+            searchCount('partenaire', '{{ absolute_url(path('ajax_partenaire_count')) }}','partenaire');
             searchCount('contact', '{{ absolute_url(path('ajax_contact_count')) }}','contact');
         });
     </script>

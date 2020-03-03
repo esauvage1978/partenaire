@@ -19,8 +19,7 @@ class PartenaireHistory extends HistoryAbstract
 
     public function compare(Partenaire $partenaireOld, Partenaire $partenaireNew)
     {
-        //TODO
-        //$this->history->setPartenaire($partenaireNew);
+        $this->history->setPartenaire($partenaireNew);
         $diffPresent=false;
 
         $this->compareField('Nom',$partenaireOld->getName(),$partenaireNew->getName()) &&$diffPresent=true;
@@ -32,6 +31,8 @@ class PartenaireHistory extends HistoryAbstract
         $this->compareField('Rue',$partenaireOld->getAddComp1(),$partenaireNew->getAddComp1()) &&$diffPresent=true;
         $this->compareField('Compléménent d\'adresse',$partenaireOld->getAddComp2(),$partenaireNew->getAddComp2()) &&$diffPresent=true;
         $this->compareField('Code postal',$partenaireOld->getAddCp(),$partenaireNew->getAddCp()) &&$diffPresent=true;
+        $this->compareFieldOneToOne('Ville','name',$partenaireOld->getAddCity(),$partenaireNew->getAddCity()) &&$diffPresent=true;
+        $this->compareFieldOneToOne('Catégorie','name',$partenaireOld->getCategory(),$partenaireNew->getCategory()) &&$diffPresent=true;
         $this->compareField('Description',$partenaireOld->getContent(),$partenaireNew->getContent()) &&$diffPresent=true;
 
         if($diffPresent) {
