@@ -4,8 +4,8 @@
 namespace App\Repository;
 
 
-use App\Dto\PartenaireDto;
 use App\Dto\DtoInterface;
+use App\Dto\PartenaireDto;
 use App\Entity\Partenaire;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -15,8 +15,8 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
 {
     use TraitDtoRepository;
 
-    const SELECT_ALL='select_all';
-    const SELECT_PAGINATOR='select';
+    const SELECT_ALL = 'select_all';
+    const SELECT_PAGINATOR = 'select';
 
     const ALIAS = 'p';
 
@@ -42,14 +42,14 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
             ->getQuery()->getSingleScalarResult();
     }
 
-    public function findAllForDtoPaginator(DtoInterface $dto, $page = null, $limit = null,$select=self::SELECT_ALL)
+    public function findAllForDtoPaginator(DtoInterface $dto, $page = null, $limit = null, $select = self::SELECT_ALL)
     {
         /**
          * var PartenaireDto
          */
         $this->dto = $dto;
 
-        switch($select) {
+        switch ($select) {
             case self::SELECT_PAGINATOR:
                 $this->initialise_select();
                 break;
@@ -76,14 +76,14 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
         return new Paginator($this->builder);
     }
 
-    public function findAllForDto(DtoInterface $dto,$select=self::SELECT_ALL)
+    public function findAllForDto(DtoInterface $dto, $select = self::SELECT_ALL)
     {
         /**
          * var PartenaireDto
          */
         $this->dto = $dto;
 
-        switch($select) {
+        switch ($select) {
             case self::SELECT_PAGINATOR:
                 $this->initialise_select();
                 break;
@@ -107,21 +107,27 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS
-            );
+                self::ALIAS,
+                CityRepository::ALIAS
+            )
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
     }
+
     private function initialise_selectAll()
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
             ->select(
-                self::ALIAS
-            );
+                self::ALIAS,
+                CityRepository::ALIAS
+            )
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
     }
 
     private function initialise_selectCount()
     {
         $this->builder = $this->createQueryBuilder(self::ALIAS)
-            ->select('count(' . self::ALIAS . '.id)');
+            ->select('count(' . self::ALIAS . '.id)')
+            ->leftJoin(self::ALIAS . '.add_city', CityRepository::ALIAS);
     }
 
     private function initialise_where()
@@ -134,6 +140,10 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
 
         $this->initialise_where_enable();
 
+        $this->initialise_where_circonscription();
+
+        $this->initialise_where_city();
+
         $this->initialise_where_search();
 
         if (count($this->params) > 0) {
@@ -145,11 +155,30 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
     private function initialise_where_enable()
     {
         if (!empty($this->dto->getEnable())) {
-            if($this->dto->getEnable()== PartenaireDto::TRUE) {
+            if ($this->dto->getEnable() == PartenaireDto::TRUE) {
                 $this->builder->andwhere(self::ALIAS . '.enable= true');
-            } elseif($this->dto->getEnable()== PartenaireDto::FALSE) {
+            } elseif ($this->dto->getEnable() == PartenaireDto::FALSE) {
                 $this->builder->andwhere(self::ALIAS . '.enable= false');
             }
+        }
+    }
+
+    private function initialise_where_circonscription()
+    {
+        if (!empty($this->dto->getCirconscription())) {
+            if ($this->dto->getCirconscription() == PartenaireDto::TRUE) {
+                $this->builder->andwhere(self::ALIAS . '.circonscription= true');
+            } elseif ($this->dto->getCirconscription() == PartenaireDto::FALSE) {
+                $this->builder->andwhere(self::ALIAS . '.circonscription= false');
+            }
+        }
+    }
+
+    private function initialise_where_city()
+    {
+        if (!empty($this->dto->getCity())) {
+            $this->builder->andwhere(CityRepository::ALIAS . '.id = :cityid');
+            $this->addParams('cityid', $this->dto->getCity()->getId());
         }
     }
 
@@ -168,7 +197,7 @@ class PartenaireDtoRepository extends ServiceEntityRepository implements DtoRepo
                     ' OR ' . self::ALIAS . '.phone1 like :search' .
                     ' OR ' . self::ALIAS . '.phone2 like :search' .
                     ' OR ' . self::ALIAS . '.mail1 like :search' .
-                    ' OR ' . self::ALIAS . '.mail2 like :search' );
+                    ' OR ' . self::ALIAS . '.mail2 like :search');
 
             $this->addParams('search', '%' . $dto->getWordSearch() . '%');
         }

@@ -34,6 +34,9 @@
                     {% if partenaire.addCp %}
                         <br/> {{ partenaire.addCp }}
                     {% endif %}
+                    {% if partenaire.addCity %}
+                        {{ partenaire.addCity.name }}
+                    {% endif %}
                 </small>
             </td>
             <td class="text-center  align-middle">

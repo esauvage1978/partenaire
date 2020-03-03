@@ -90,6 +90,11 @@ class Partenaire implements EntityInterface
      */
     private $contacts;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\City", inversedBy="partenaires")
+     */
+    private $add_city;
+
     public function __construct()
     {
         $this->histories = new ArrayCollection();
@@ -305,6 +310,18 @@ class Partenaire implements EntityInterface
         if ($this->contacts->contains($contact)) {
             $this->contacts->removeElement($contact);
         }
+
+        return $this;
+    }
+
+    public function getAddCity(): ?City
+    {
+        return $this->add_city;
+    }
+
+    public function setAddCity(?City $add_city): self
+    {
+        $this->add_city = $add_city;
 
         return $this;
     }

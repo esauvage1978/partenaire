@@ -1,4 +1,4 @@
-<section>
+<section class="col-sm-6 col-md-4 ">
     <strong><i class="fas fa-map-marker-alt mr-1"></i> Adresse</strong>
     <p class="text-muted">
         {% if partenaire.addcomp1 %}
@@ -8,7 +8,10 @@
             {{ partenaire.addcomp2 }}<br/>
         {% endif %}
         {% if partenaire.addcp %}
-            {{ partenaire.addcp }}<br/>
+            {{ partenaire.addcp }}
+        {% endif %}
+        {% if partenaire.addcity %}
+            {{ partenaire.addcity.name }}
         {% endif %}
     </p>
 </section>

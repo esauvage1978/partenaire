@@ -41,9 +41,14 @@
                         <div class="col-12">
                             {{ form_row(form.wordSearch) }}
                         </div>
-
+                        <div class="col-12">
+                            {{ form_row(form.city) }}
+                        </div>
                         <div class="col-6 float-left">
                             {{ form_row(form.enable) }}
+                        </div>
+                        <div class="col-6 float-left">
+                            {{ form_row(form.circonscription) }}
                         </div>
                         <div class="d-none">
                             {{ form_row(form.page) }}
@@ -103,6 +108,8 @@
         function exportData() {
             $('#partenaire_export_wordSearch').val($('#partenaire_wordSearch').val());
             $('#partenaire_export_enable').val($('#partenaire_enable').val());
+            $('#partenaire_export_city').val($('#partenaire_city').val());
+            $('#partenaire_export_circonscription').val($('#partenaire_circonscription').val());
             $('#exporter').click();
         }
 

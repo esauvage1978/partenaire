@@ -2,6 +2,7 @@
 
 namespace App\Form\Partenaire;
 
+use App\Entity\City;
 use App\Entity\Contact;
 use App\Entity\Partenaire;
 use App\Form\AppTypeAbstract;
@@ -23,6 +24,13 @@ class PartenaireType extends AppTypeAbstract
                 self::CSS_CLASS => Contact::class,
                 self::LABEL=>'Référent',
                 self::CHOICE_LABEL => 'fullname',
+                self::MULTIPLE => false,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                self::REQUIRED => false,
+            ])
+            ->add('add_city', EntityType::class, [
+                self::CSS_CLASS => City::class,
+                self::CHOICE_LABEL => 'name',
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,

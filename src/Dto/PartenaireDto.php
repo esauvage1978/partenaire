@@ -23,7 +23,50 @@ class PartenaireDto implements DtoInterface
      * @var ?String
      */
     private $enable;
+    /**
+     * @var ?String
+     */
+    private $circonscription;
 
+    /**
+     * @return mixed
+     */
+    public function getCirconscription()
+    {
+        return $this->circonscription;
+    }
+
+    /**
+     * @param mixed $circonscription
+     * @return PartenaireDto
+     */
+    public function setCirconscription($circonscription)
+    {
+        $this->circonscription = $circonscription;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param mixed $city
+     * @return PartenaireDto
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+        return $this;
+    }
+    /**
+     * @var ?City
+     */
+    private $city;
 
     /**
      * @return mixed
