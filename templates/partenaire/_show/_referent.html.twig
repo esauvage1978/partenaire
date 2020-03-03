@@ -1,8 +1,10 @@
 {% if partenaire.referent %}
+    <div class="col-sm-12 col-md-4">
     <article class=" pt-3" id="anchor_referent">
         <h5 class="text-purple p-1 ">
             Référent
         </h5>
         {{ include('contact/_view/_vignette.html.twig',{contact: partenaire.referent}) }}
     </article>
+    </div>
 {% endif %}

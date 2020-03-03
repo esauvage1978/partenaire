@@ -1,0 +1,17 @@
+{% if partenaire.contacts | length >0 %}
+    <div class="col-sm-12 ">
+    <article class=" pt-3" id="anchor_contacts">
+        <h5 class="text-purple p-1 ">
+            Contacts
+        </h5>
+        <div class="row col-12 d-flex align-items-stretch " id="anchor_contact" >
+
+            {% for contact in partenaire.contacts %}
+                <div class="col-sm-12 col-md-6 col-lg-4  d-flex align-items-stretch" >
+                    {{ include('contact/_view/_vignette.html.twig') }}
+                </div>
+            {% endfor %}
+        </div>
+    </article>
+    </div>
+{% endif %}
