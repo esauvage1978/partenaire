@@ -35,6 +35,14 @@
         </a>
     </li>
     {% endif %}
+
+    {% if partenaire.contacts | length >0 %}
+        <li class="nav-item ">
+            <a class="nav-link" href="#anchor_contacts">
+                <i class="fa fa-users"></i> Contacts
+            </a>
+        </li>
+    {% endif %}
 {% endblock %}
 
 {% block sidebar_button %}
@@ -82,9 +90,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-12 col-md-4">
-                    {{ include('partenaire/_show/_referent.html.twig') }}
-                </div>
+                {{ include('partenaire/_show/_referent.html.twig') }}
+                {{ include('partenaire/_show/_contacts.html.twig') }}
             </div>
         </div>
         <div class="d-none">

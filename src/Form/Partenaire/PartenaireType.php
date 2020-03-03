@@ -36,6 +36,20 @@ class PartenaireType extends AppTypeAbstract
                         ->orderBy('c.name', 'ASC');
                 }
             ])
+            ->add('contacts', EntityType::class, [
+                self::CSS_CLASS => Contact::class,
+                self::LABEL=>'Contacts',
+                self::CHOICE_LABEL => 'fullname',
+                self::MULTIPLE => true,
+                self::ATTR => [self::CSS_CLASS => 'select2'],
+                self::REQUIRED => false,
+                self::QUERY_BUILDER => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c2')
+                        ->select('c2')
+                        ->where('c2.enable = true')
+                        ->orderBy('c2.name', 'ASC');
+                }
+            ])
             ->add('add_city', EntityType::class, [
                 self::CSS_CLASS => City::class,
                 self::CHOICE_LABEL => 'name',
@@ -52,6 +66,7 @@ class PartenaireType extends AppTypeAbstract
             ->add('category', EntityType::class, [
                 self::CSS_CLASS => Category::class,
                 self::CHOICE_LABEL => 'name',
+                self::LABEL=>'Catégorie',
                 self::MULTIPLE => false,
                 self::ATTR => [self::CSS_CLASS => 'select2'],
                 self::REQUIRED => false,
