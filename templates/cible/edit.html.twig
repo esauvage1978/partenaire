@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% set title='Villes' %}
+{% set route_index='city_index' %}
+{% set entityName='city' %}
+{% set entity=city %}
+
+{% block title %}{{ parent() }} {{title}}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/select2/css/select2.min.css')) }}">
+    <link rel="stylesheet"
+          href="{{ absolute_url( asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')) }}">
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="{{ absolute_url( asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css')) }}">
+{% endblock %}
+
+{% block body_header %}
+    {{ include('admin/_body_header.html.twig', {domaine: title , id : entity.id, index : route_index}) }}
+{% endblock %}
+
+{% block sidebar_sommaire %}
+
+{% endblock %}
+
+{% block sidebar_button %}
+    {% if is_granted('ROLE_GESTIONNAIRE') %}
+
+        {{ include('share/__btn_save_onclick.html.twig') }}
+
+        <span class="mb-3"></span>
+
+        <span class="btn btn-danger " onclick="$('#delete').click();">
+            <i class="fas fa-trash"></i> Supprimer
+        </span>
+
+    {% endif %}
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_export.html.twig',
+        {   url: entityName~ '_export_partenaires',
+            id:entity.id,
+            title:'Exporter les partenaires'
+        }) }}
+
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_return_show.html.twig',
+        {   url:entityName~ '_show',
+            id:entity.id
+        }) }}
+
+    <span class="mb-3"></span>
+
+    {{ include('share/__btn_return_list.html.twig',
+        {   url:route_index
+        }) }}
+
+{% endblock %}
+
+{% block body %}
+
+
+
+    <div class="row justify-content-center">
+        <div class="{{ col_primary }}">
+            {{ form_start(form) }}
+
+            <div class="card ">
+
+                {{ include(entityName~ '/_form.html.twig') }}
+                <div class="card-footer">
+
+                </div>
+            </div>
+
+            <div class="d-none">
+                {{ include('share/__btn_save.html.twig') }}
+                {{ form_rest(form) }}
+            </div>
+
+            {{ form_end(form) }}
+
+
+            <div class="d-none">
+                {{ include('share/_delete_form.html.twig',{domaine: entityName,id:entity.id}) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Select2 -->
+    <script src="{{ absolute_url( asset('plugins/select2/js/select2.full.min.js')) }}"></script>
+    <script src="{{ absolute_url( asset('js/add_sidebar.js')) }}"></script>
+{% endblock %}
+
